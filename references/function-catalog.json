@@ -1,0 +1,2700 @@
+{
+  "meta": {
+    "skill": "beezwax-bbox-plugin",
+    "version": "1.0",
+    "plugin_name": "bBox FileMaker Plug-in",
+    "vendor": "Beezwax Datatools, Inc.",
+    "license": "free (closed source)",
+    "product_url": "https://www.beezwax.net/products/bbox",
+    "download_url": "https://beezwax.net/forms/download/bbox",
+    "source_repo": "https://github.com/beezwax/bbox-documentation",
+    "docs_wiki_home": "https://github.com/beezwax/bbox-documentation/wiki",
+    "docs_index": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+    "wiki_raw_url_pattern": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/{PageName}.md",
+    "plugin_version_at_build": "1.06",
+    "plugin_build_at_build": "1.06.7",
+    "plugin_build_source": "CFBundleVersion in the downloaded bBox_1.06_FMP_plug-in/macOS/bBox.fmplugin/Contents/Info.plist (Developer-provided download, checked same-day as v1.0's initial build)",
+    "plugin_version_documented_date": "2025-07-19",
+    "full_function_count": 87,
+    "full_doc_status_count": 39,
+    "full_demo_confirmed_doc_status_count": 48,
+    "stub_doc_status_count": 0,
+    "wiki_pages_at_build": 50,
+    "category_count": 15,
+    "usage_note": "Each function entry carries signature, description, and structured detail to varying depth depending on doc_status: \"full\" (has a dedicated wiki page — the richest entries, including since/compatibility/example_code where the page states them), \"full_demo_confirmed\" (no wiki page, but signature and description are confirmed via the bundled bBox Plug-in Demo.fmp12 file's own embedded function-reference text and/or the compiled plugin binary's internal Do_* handler table — solid primary-source evidence, just thinner detail than a wiki page provides), and \"stub_no_wiki_page\" (reconstructed only from indirect cross-references — the least certain tier; verify against beezwax.net or the demo file before relying on one for precise parameter-by-parameter guidance). doc_bug_note fields flag upstream documentation errors (typos, copy/paste artifacts) found in either the wiki or the demo file during this build.",
+    "known_gaps": "\"bBox Text Window Action\" and \"bBox Text Window Open\" were excluded from the v1.0 build as unverified (they appeared only in a third-party draft, bbox-plugin-skill.json, found in the beezwax/bbox-documentation repo root). That exclusion was corrected in a same-day review after obtaining the actual bBox_1.06_FMP_plug-in download (Developer-provided): both are genuinely real, confirmed independently via the bundled bBox Plug-in Demo.fmp12 file's own embedded function-reference text and the compiled plugin binary's internal Do_TextWindowAction handler. Both are now catalogued in the 'AppleScript and macOS Automation' category. \"bBox Select Menu Item\" is likewise now catalogued as bBox_SelectMenuItem, confirmed the same way. \n\nA second \"bBox Perform Script\" entry in the wiki's own (duplicate-riddled) Script Step List remains uncatalogued — no signature, description, or cross-reference for it exists anywhere, including in the demo file; it's likely just a list duplicate rather than a distinct feature. \n\nThe compiled plugin binary (bBox.fmplugin/Contents/MacOS/bBox) also contains internal Do_* handlers with no confirmed public bBox_ name or signature in any available source (wiki, third-party draft, or demo file text): Do_AppleMapsWebSnapshot, Do_ListFields, Do_ListTables, Do_GitOpen, Do_CutTextCharacters, Do_CutTextFields, Do_SQLiteExecMany, and Do_DuckDBOptions (the latter almost certainly bBox_DuckDBOptions, parallel to bBox_SQLiteOptions, but not catalogued without a confirmed signature). These are real, compiled-in features — not phantoms — but deliberately not catalogued with an invented signature. Test them directly in FileMaker (bBox_ListFields(), bBox_ListTables(), etc. are reasonable first guesses given the internal naming convention) or check beezwax.net before relying on any of them.",
+    "last_updated": "2026-07-07",
+    "update_instructions": "Re-run the fetch+parse pass periodically: 1) clone the wiki repo (git clone https://github.com/beezwax/bbox-documentation.wiki.git) rather than scraping rendered HTML — the wiki has no releases API, so there's no tag-based drift signal like goya-be-plugin or claris-filemaker-pro use; page presence/absence and content are the only signals available. 2) Diff the cloned page list (`git ls-tree -r HEAD --name-only`) against this catalog's entries to find additions/removals — do this via git's object listing, not a plain `ls`, since the wiki repo's mixed-case filenames collide on a case-insensitive macOS volume during checkout (confirmed while building v1.0: several bBox_* files silently didn't appear in a case-insensitive `ls` despite being present in the git history). 3) For new/changed pages, parse the **`function( params )`** heading, the Parameters/Result/Error/Script Step code block, then the prose below the second `***` divider for description/notes/examples. 4) Re-check the bBox_LastError reference table in Errors-&-Troubleshooting.md for the function list this catalog treats as 'stub' — if a function gains its own page, promote it to a full entry. 5) Check https://github.com/beezwax/bbox-documentation for whether the current version (1.06 as of this build) has changed — Home.md's '### Current Version' section is the only version signal since there's no releases API; cross-check against the Related Blog Posts list for a newer numbered post. 6) Treat the repo-root bbox-plugin-skill.json (if still present) as a lead-finder only, never as authoritative — it had a JSON syntax error (trailing comma) and several entries with less parameter detail than the wiki pages themselves provide. 7) If a fresh plugin download becomes available (a bBox_X.XX_FMP_plug-in folder containing Documentation/, per-OS binaries, and the bBox Plug-in Demo.fmp12 file), it's a genuinely valuable second source, confirmed in this same-day review: run `strings -n 6` on the demo .fmp12 file and grep for `bBox_` — its layouts embed a full function-reference text index (name, signature, description) that is NOT the same content as the wiki and catches real gaps (this pass found bBox_Sort missing entirely, several stub signatures that were wrong or incomplete, e.g. bBox_FileWrite's missing `unzip` parameter, and about 15 functions with no wiki presence at all, like the bBox_HTTP_* family). Also run `strings -n 4` on the compiled plugin binary itself (macOS/bBox.fmplugin/Contents/MacOS/bBox) and extract Itanium-mangled `_Z<N>Do_<Name>` symbols (slice exactly N characters starting right after the digits, using Python — a plain regex under-matches because the mangled suffix length varies) to get the internal handler list; cross-check against confirmed bBox_ names to find internal-only functions with no public signature yet (see meta.known_gaps for the current list). Read Info.plist's CFBundleVersion for the precise build number (e.g. 1.06.7, more specific than the wiki's bare \"1.06\"). Don't fabricate a signature for an internal-only Do_ name found this way — list it in known_gaps instead, exactly as this pass did. 8) https://www.beezwax.net/bbox-functions is a THIRD real source — an older (\"0.97+\"-era, pre-1.06) function index whose ~60 entries mostly overlap the wiki (same broken links, e.g. bBox_DuckDBExec/Open both mislinking to the old bbox-sqlite* pages from before DuckDB replaced SQLite) — but each name links to its own dedicated page (https://www.beezwax.net/{lowercase-name-no-underscores}, e.g. bbox-sqliteclose, bbox-sort, bbox-doscript, bbox-sysctl) in the SAME rich format as a wiki page (Parameters/Result/Error/Script Step block, First appeared/Examples/Compatibility, prose description). A FULL SWEEP of this source was completed the same day it was discovered: all ~60 unique linked pages were fetched (`curl -A \"Mozilla/5.0\"`, no auth needed) and parsed (the page format is consistent enough for a single regex-based extractor — see the retrieval method below), then diffed against every matching catalog entry by name and by rough parameter count. 6 linked URLs (the whole bBox_WebView* family) returned HTTP 302 to /404 — genuinely absent from this older source, not a fetch failure; the WebView family is presumably a post-\"0.97+\" addition. Of the ~54 pages that did resolve, about 20 catalog entries gained real corrections: since/compatibility fields the demo file hadn't provided, richer prose descriptions, and in a few cases outright behavioural facts absent from every other source (bBox_DoScript is NOT PSoS-compatible and runs asynchronously; bBox_FileRead/FileWrite/FileStatus/FileSymLink all warn that their path parameter is a literal value — don't escape or quote it; bBox_SQLiteOpen's own docs note it was slated for replacement by bBox_DuckDBOpen in 1.05). One GENUINE, UNRESOLVED CONFLICT was found and deliberately left unresolved rather than silently picked: bBox_PythonEval's demo-file signature (1.06-era) is `(reference; expression)`, session-based, but this older page (since 0.84) describes a materially different 1-parameter, session-less `(expression)` version — see its doc_bug_note for the full writeup; don't trust either without testing directly in FileMaker. Retrieval method for a future re-sweep: extract the {name: url} map from the index page's `<a href=\"...\">bBox_Name(...)</a>` anchors, curl each unique URL, and parse each page's Parameters/Result/Error/Script Step block plus the \"First appeared in / Examples in demo file / Compatibility\" line and the prose after the final divider. Treat any conflict with the demo file (1.06-era, generally the newer source) in the demo file's favour, but still record the older page's detail as a note rather than discarding it, per the bBox_DoScript `control`-parameter and bBox_PythonEval examples above."
+  },
+  "categories": {
+    "Shell, Bash, and Zsh": {
+      "notes": "The three POSIX shell functions share a mode-flag vocabulary (see shared_reference.mode_flags) and all report errors via bBox_LastError(\"posix\"). bBox_Shell only returns stdout and does not accept container data as its script parameter; bBox_Bash and bBox_Zsh support container field references (see shared_reference.container_field_references) and finer input/output control. macOS now defaults to Zsh, and its bundled Bash is far behind Linux's, so prefer bBox_Zsh on macOS.",
+      "functions": {
+        "bBox_Shell": {
+          "name": "bBox_Shell",
+          "signature": "bBox_Shell ( mode ; script )",
+          "description": "Executes the given text with the Unix shell and returns stdout only (max 2 GB, truncated after 160 MB). Does not support container data as the script parameter; for more control over input/output use bBox_Bash or bBox_Zsh instead.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Shell.md",
+          "since": "0.3",
+          "compatibility": [
+            "WPE",
+            "WebDirect",
+            "Ubuntu",
+            "Server",
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = convert both input/output line endings; 1 = skip CR-to-LF conversion on input; 2 = skip LF-to-CR conversion on output; 3 = don't translate input or output line endings"
+            },
+            {
+              "name": "script",
+              "description": "String to be evaluated (executed) by the shell"
+            }
+          ],
+          "result": "String returned after executing the shell command (maximum of 2 GB, truncated after 160 MB)",
+          "error_reference": "bBox_LastError (\"posix\")"
+        },
+        "bBox_Bash": {
+          "name": "bBox_Bash",
+          "signature": "bBox_Bash ( mode ; text {; param1 ; ... ; param5} )",
+          "description": "Runs text as a Bash script with more control over input/output/parameters than bBox_Shell, including container-data support. A superset of bBox_Shell — supports interpreter command-line options and Bash-only syntax not available in sh.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Bash.md",
+          "since": "0.3",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = convert both line endings, wait for output; 1 = skip CR-to-LF on input; 2 = skip LF-to-CR on output; 4 = don't wait for completion (asynchronous); 32 = combine stdout & stderr"
+            },
+            {
+              "name": "text",
+              "description": "Input text to be processed"
+            },
+            {
+              "name": "...",
+              "description": "Additional Bash options or parameters (optional)"
+            }
+          ],
+          "result": "stdout from Bash execution (truncated to a maximum of 160 MB)",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "script_step_equivalent": "bBox Bash [ Script; $1; $2; $3; $4 ]",
+          "notes": [
+            "Supports container field references (see shared_reference.container_field_references).",
+            "Bash defaults to the \"C\" character encoding (ASCII only) — high-bit/multibyte UTF-8 characters can cause problems unless handled explicitly."
+          ]
+        },
+        "bBox_Zsh": {
+          "name": "bBox_Zsh",
+          "signature": "bBox_Zsh ( mode ; text {; ...} )",
+          "description": "Runs the Zsh shell interpreter, sending text (typically a script) to its stdin, and returning stdout as the function result (truncated to a maximum of 160 MB). macOS defaults to Zsh (its Bash is outdated), so this is generally preferred over bBox_Bash on macOS; Zsh is available but not installed by default on Ubuntu.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.95",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "Same shared mode flags as bBox_Bash (line-ending and async control)"
+            },
+            {
+              "name": "text",
+              "description": "Input text to be processed (sent to stdin)"
+            },
+            {
+              "name": "...",
+              "description": "Up to 8 additional parameters to the Zsh command, typically used with -s"
+            }
+          ],
+          "result": "stdout from Zsh execution (truncated to a maximum of 160 MB)",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "script_step_equivalent": "bBox Zsh [ Script; $1; $2; $3; $4 ]",
+          "notes": [
+            "Supports container field references (see shared_reference.container_field_references).",
+            "since/result-limit confirmed via https://www.beezwax.net/bbox-zsh (an older \"0.97+\"-era per-function vendor page, 8 demo examples)."
+          ]
+        },
+        "bBox_ShellExitStatus": {
+          "name": "bBox_ShellExitStatus",
+          "signature": "bBox_ShellExitStatus",
+          "description": "Returns the numeric result code from the last shell command executed (bBox_Shell, bBox_Bash, bBox_Zsh, or the script-step equivalents).",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "result": "Numeric exit status",
+          "error_reference": "none",
+          "notes": [
+            "Confirmed via the bBox Plug-in Demo file's embedded function reference — no dedicated wiki page exists for this function."
+          ]
+        }
+      }
+    },
+    "AppleScript and macOS Automation": {
+      "notes": "macOS-only functions for scripting other applications and simulating UI input. All are limited or non-functional server-side (PSoS/schedules) because there is no accessible logged-in GUI session.",
+      "functions": {
+        "bBox_Applescript": {
+          "name": "bBox_Applescript",
+          "signature": "bBox_Applescript ( mode ; script {; handler ; param1 ; param2} )",
+          "description": "Compile and run an AppleScript script, using the script's return value as the function's result. If no return value is given, the result is \"?\". Can optionally call a specific handler (subroutine) with up to two parameters.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Applescript.md",
+          "since": "0.3c",
+          "compatibility": [
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "Currently not used"
+            },
+            {
+              "name": "script",
+              "description": "A string that will evaluate to a valid AppleScript script"
+            },
+            {
+              "name": "handler",
+              "description": "Subroutine name that should be called (optional)"
+            },
+            {
+              "name": "param1",
+              "description": "First parameter to pass to handler (optional)"
+            },
+            {
+              "name": "param2",
+              "description": "Second parameter to pass to handler (optional)"
+            }
+          ],
+          "result": "String representation of data returned by the AppleScript script",
+          "error_reference": "bBox_LastError (\"applescript\")",
+          "script_step_equivalent": "bBox Applescript [ Script; Handler ] — note the script step does not accept parameters, only a handler name",
+          "notes": [
+            "Parameters are encoded as UTF-8, which can be a problem for text needing 16-bit characters; script text and output use UTF-16.",
+            "String results are enclosed in double quotes. For a numeric result, wrap the call in GetAsNumber, e.g. GetAsNumber (bBox_Applescript( 0; \"(1+1)\" )) = 2.",
+            "Optional trailing parameters can be omitted while still supplying the handler name."
+          ],
+          "example_code": "Set Field [\n DEMO::output_gt;\n bBox_Applescript (\n DEMO::mode_gn;\n DEMO::script_gt;\n \"my_handler\";\n \"1st and only parameter to subroutine my_handler\"\n )\n]"
+        },
+        "bBox_ApplescriptLastError": {
+          "name": "bBox_ApplescriptLastError",
+          "signature": "bBox_ApplescriptLastError",
+          "description": "Get the AppleScript error number from the last script executed.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "compatibility": [
+            "macOS",
+            "Client"
+          ],
+          "result": "Numeric AppleScript error code",
+          "error_reference": "none",
+          "notes": [
+            "Distinct from bBox_LastError (\"applescript\") — confirmed via the bBox Plug-in Demo file's embedded function reference; no dedicated wiki page exists."
+          ]
+        },
+        "bBox_PerformKeystrokes": {
+          "name": "bBox_PerformKeystrokes",
+          "signature": "bBox_PerformKeystrokes ( text {; ...} )",
+          "description": "Key in the text parameters as if typed by the user, including escape codes for modifier keys (Command, Shift, etc.).",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_PerformKeystrokes.md",
+          "since": "0.80",
+          "compatibility": [
+            "Client",
+            "macOS"
+          ],
+          "parameters": [
+            {
+              "name": "text",
+              "description": "One or more text parameters with characters to key in"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none (bBox_LastError not applicable)",
+          "notes": [
+            "To use a command-key combination, the parameter must start with \"@\", followed by one or more modifiers: ^ = Control, _ = Option, $ = Shift, ~ = 0.5 second pause."
+          ]
+        },
+        "bBox_MacCalendar": {
+          "name": "bBox_MacCalendar",
+          "signature": "bBox_MacCalendar ( operation {; parameter1 ; parameter2} )",
+          "description": "Get information about the user's calendars and reminder events configured in macOS. Work in progress — parameters and output may change in future versions.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_MacCalendar.md",
+          "since": "1.0.3",
+          "compatibility": [
+            "Client",
+            "macOS"
+          ],
+          "parameters": [
+            {
+              "name": "operation",
+              "description": "Currently just two operations: \"requestAccess\" or \"listCalendars\""
+            },
+            {
+              "name": "parameter1",
+              "description": "Either \"events\" or \"reminders\""
+            },
+            {
+              "name": "parameter2",
+              "description": "With the requestAccess operation, a FileMaker calculation to execute"
+            }
+          ],
+          "result": "For listCalendars: a return-delimited list of information on every calendar of the given type",
+          "error_reference": "bBox_LastError (\"maccal\") — per Errors-&-Troubleshooting.md's reference table"
+        },
+        "bBox_MacNotificationsGetSettings": {
+          "name": "bBox_MacNotificationsGetSettings",
+          "signature": "bBox_MacNotificationsGetSettings",
+          "description": "Returns the macOS settings related to FileMaker Pro's access to the Notification Center (keys corresponding to the UNNotificationSettings class).",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_MacNotificationsGetSettings.md",
+          "compatibility": [
+            "macOS"
+          ],
+          "parameters": [],
+          "result": "String representation of FileMaker's notification settings in macOS",
+          "error_reference": "none",
+          "script_step_equivalent": "none",
+          "example_code": "Alert Setting: Enabled\nAuthorization Status: Authorized\nAlert Style: Alert\nBadge Setting: Enabled\nCritical Alert Setting: Enabled\nDirect Messages: Not Supported\nLock Screen Authorization: Enabled\nProvides App Notification Settings: 0\nScheduled Delivery: Not Supported\nShow Previews: When Authenticated\nSound Setting: Enabled\nTime Sensitivity: Not Supported"
+        },
+        "bBox_MacNotification": {
+          "name": "bBox_MacNotification",
+          "signature": "bBox_MacNotification ( queue ; delay ; titleList {; buttonList ; scriptSpecifier} )",
+          "description": "Creates a macOS notification, optionally with alert buttons. Distinct from bBox_MacNotificationsGetSettings, which only reads FileMaker's notification permission settings.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "compatibility": [
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "queue",
+              "description": "Notification queue/thread identifier"
+            },
+            {
+              "name": "delay",
+              "description": "Delay in seconds before the notification fires — can occur even after FileMaker has quit"
+            },
+            {
+              "name": "titleList",
+              "description": "Return-delimited list of title text"
+            },
+            {
+              "name": "buttonList",
+              "description": "Optional return-delimited list of button titles"
+            },
+            {
+              "name": "scriptSpecifier",
+              "description": "Optional FileMaker script to call if the notification is clicked"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none",
+          "notes": [
+            "One demo occurrence shows a 3-parameter short form (queue; delay; titleList) without the optional buttonList/scriptSpecifier — likely just an abbreviated reference-index rendering rather than a second overload. Confirmed via the bBox Plug-in Demo file's embedded function reference; no dedicated wiki page exists."
+          ]
+        },
+        "bBox_SelectMenuItem": {
+          "name": "bBox_SelectMenuItem",
+          "signature": "bBox_SelectMenuItem ( title {; ...} )",
+          "description": "Selects the first menu item with a matching title (name). Use multiple parameters to select into a submenu.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "compatibility": [
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "title",
+              "description": "Menu item title to select"
+            },
+            {
+              "name": "...",
+              "description": "Additional titles to drill into a submenu (optional)"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none",
+          "script_step_equivalent": "bBox Select Menu Item",
+          "notes": [
+            "Confirmed via the bBox Plug-in Demo file's embedded function reference — the wiki's Script Step List names \"bBox Select Menu Item\" with no detail at all; this is the first confirmed signature/description for it."
+          ]
+        },
+        "bBox Text Window Open": {
+          "name": "bBox Text Window Open",
+          "signature": "bBox Text Window Open [ destination ; title ; input type ; frame ]",
+          "description": "Creates a new macOS text window.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "compatibility": [
+            "macOS"
+          ],
+          "parameters": [
+            {
+              "name": "frame",
+              "description": "Window position/size in the format \"{x,y,w,h}\""
+            }
+          ],
+          "result": "A window reference, used by bBox Text Window Action",
+          "error_reference": "none",
+          "notes": [
+            "Confirmed real via two independent sources: the bBox Plug-in Demo file's embedded function reference (description above) and the compiled plugin binary's internal Do_TextWindowAction handler. Originally excluded from this catalog as unverified because it appeared only in a third-party draft file — that exclusion is now corrected. The exact parameter breakdown beyond \"frame\" is inferred from the draft's proposed signature (destination/title/input type), not independently confirmed field-by-field — treat parameter order as probable, not certain."
+          ]
+        },
+        "bBox Text Window Action": {
+          "name": "bBox Text Window Action",
+          "signature": "bBox Text Window Action [ destination ; reference ; operation ; parameter1 ; parameter2 ]",
+          "description": "Sets, gets, or performs an action on a previously created text window.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "compatibility": [
+            "macOS"
+          ],
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "The window reference value returned by bBox Text Window Open"
+            }
+          ],
+          "result": "Depends on operation",
+          "error_reference": "none",
+          "notes": [
+            "Same confirmation basis as bBox Text Window Open — see its notes."
+          ]
+        }
+      }
+    },
+    "Networking": {
+      "notes": "HTTP/S and file-transfer functions. bBox_Curl has no shell between it and the curl binary, so shell quoting conventions (spaces after an option, etc.) do not apply — see notes.",
+      "functions": {
+        "bBox_Curl": {
+          "name": "bBox_Curl",
+          "signature": "bBox_Curl ( param1 {; param2 ; ... ; param5} )",
+          "description": "Return the results of the curl command with the given parameters. Each FileMaker parameter is equivalent to one curl parameter. Commonly used for REST and SOAP calls.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Curl.md",
+          "since": "0.40",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "param1",
+              "description": "First curl parameter (required)"
+            },
+            {
+              "name": "param2...",
+              "description": "Additional curl parameters (optional, zero or more)"
+            }
+          ],
+          "result": "curl output (from stdout)",
+          "error_reference": "bBox_LastError (\"curl\")",
+          "script_step_equivalent": "bBox Curl [ Param1; Param2; Param3; Param4; Param5; Param6; Param7 ] (version 0.98+)",
+          "notes": [
+            "Since there is no shell involved, there is no space-stripping — write \"-o/var/tmp/file.html\" rather than \"-o /var/tmp/file.html\" (which would work in an actual shell).",
+            "Long-form option names must be their own FileMaker parameter, e.g. bBox_Curl (\"--output\"; \"/var/tmp/file.html\"; \"http://beezwax.net\").",
+            "Quotes generally aren't needed around parameters the way they would be in a shell; GetAsURLEncoded may be needed in some cases.",
+            "Download-progress output goes to the system log (macOS) or fmshelper.log (Ubuntu) unless suppressed with -s; -v output goes to stderr, not stdout — use curl's --trace options or add 32 to mode to combine stdout & stderr.",
+            "Supports container field references (see shared_reference.container_field_references), e.g. for --upload-file."
+          ],
+          "example_code": "bBox_Curl (\n   \"--mail-from\"; \"brown@domain.com\";\n   \"--mail-rcpt\"; \"simon@domain.com\";\n   \"--upload-file\"; DATA::FILE;\n   \"smtp://mail.domain.com\"\n)"
+        },
+        "bBox_Scp": {
+          "name": "bBox_Scp",
+          "signature": "bBox_Scp ( param1 ; param2 {; ...} )",
+          "description": "Uses the OpenSSH scp command to copy files from given remote or local sources and destinations. Similar to the cp command, but source/destination can be anywhere reachable via SSH.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Scp.md",
+          "since": "0.99",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "param1",
+              "description": "First scp parameter"
+            },
+            {
+              "name": "param2",
+              "description": "Second scp parameter"
+            },
+            {
+              "name": "...",
+              "description": "Zero or more additional parameters"
+            }
+          ],
+          "result": "Error or status messages",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "notes": [
+            "Use SSH keys for automated usage to avoid needing to supply passwords.",
+            "Server-side, scp runs as the fmserver OS account (or fmsadmin group), which must have the needed SSH-key/destination access.",
+            "Use the -v option for more debugging output."
+          ]
+        },
+        "bBox_FM_API_URL": {
+          "name": "bBox_FM_API_URL",
+          "signature": "bBox_FM_API_URL ( connectionType ; hostname {; database ; port} )",
+          "description": "Calculates the correct base URL to use for a given FileMaker Data/Admin/OData API type.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_FM_API_URL.md",
+          "since": "1.04",
+          "compatibility": [
+            "Client",
+            "Server",
+            "macOS",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "connectionType",
+              "description": "One of \"ADMIN\", \"CADMIN\", \"DATA\", \"CDATA\", \"ODATA\", or \"CODATA\" — the \"C\" prefix denotes FileMaker Cloud endpoints, which differ from on-premise"
+            },
+            {
+              "name": "hostname",
+              "description": "Hostname or IP address of the server"
+            },
+            {
+              "name": "database",
+              "description": "Required except for ADMIN/CADMIN connection types"
+            },
+            {
+              "name": "port",
+              "description": "Optional; use to specify a port other than the default 443"
+            }
+          ],
+          "result": "API endpoint URL, with trailing slash",
+          "error_reference": "none (blank result on error)"
+        },
+        "bBox_FM_Admin_Login": {
+          "name": "bBox_FM_Admin_Login",
+          "signature": "bBox_FM_Admin_Login ( Hostname ; User ; Password ; {; UsingCloud ; skipSSLVerify ; Port} )",
+          "description": "Creates a connection to FileMaker Server's Admin API (/fmi/admin/api/v1/).",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "Hostname",
+              "description": "Server hostname or IP address"
+            },
+            {
+              "name": "User",
+              "description": "Admin account username"
+            },
+            {
+              "name": "Password",
+              "description": "Admin account password"
+            },
+            {
+              "name": "UsingCloud",
+              "description": "Optional flag for FileMaker Cloud endpoints"
+            },
+            {
+              "name": "skipSSLVerify",
+              "description": "Optional flag to skip SSL certificate verification"
+            },
+            {
+              "name": "Port",
+              "description": "Optional port override"
+            }
+          ],
+          "result": "Authentication token if successful",
+          "error_reference": "none",
+          "notes": [
+            "Entirely absent from the wiki, the third-party draft, and the demo file's own Home/Functions-&-Script-Steps-style index — found only via the demo file's embedded reference text and confirmed independently by the plugin binary's own debug log strings (\"Do_FM_Admin_Login: base url=%s\", \"skipSSLVerify=%d\", \"/fmi/admin/api/v1/\")."
+          ]
+        },
+        "bBox_FM_API_Login": {
+          "name": "bBox_FM_API_Login",
+          "signature": "bBox_FM_API_Login ( URL ; user ; password ; {; skipSSLVerify} )",
+          "description": "Authenticates to the FileMaker Data API, Admin API, or OData API and returns the authentication token. The required URL is typically produced by bBox_FM_API_URL.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "URL",
+              "description": "API base URL, typically from bBox_FM_API_URL"
+            },
+            {
+              "name": "user",
+              "description": "Account username"
+            },
+            {
+              "name": "password",
+              "description": "Account password"
+            },
+            {
+              "name": "skipSSLVerify",
+              "description": "Optional flag to skip SSL certificate verification"
+            }
+          ],
+          "result": "Authentication token if successful",
+          "error_reference": "none",
+          "notes": [
+            "Not present anywhere in the wiki or third-party draft — found only via the demo file's embedded reference text."
+          ]
+        },
+        "bBox_HTTP_GET": {
+          "name": "bBox_HTTP_GET",
+          "signature": "bBox_HTTP_GET ( URL ; user ; password ; {; skipSSLVerify} )",
+          "description": "Performs an HTTP GET request against the given URL with basic authentication.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "URL",
+              "description": "Request URL"
+            },
+            {
+              "name": "user",
+              "description": "Username (optional depending on target)"
+            },
+            {
+              "name": "password",
+              "description": "Password (optional depending on target)"
+            },
+            {
+              "name": "skipSSLVerify",
+              "description": "Optional flag to skip SSL certificate verification"
+            }
+          ],
+          "result": "Response body",
+          "error_reference": "none",
+          "notes": [
+            "Part of an HTTP-verb function family (bBox_HTTP_GET/DELETE/PATCH/POST/Option) not documented anywhere on the wiki or in the third-party draft — found only via the demo file's embedded reference text. Distinct from the general-purpose bBox_Curl function. The description text adjacent to this entry in the demo file (\"Authenticate to the FileMaker Data API...\") reads as though it more likely belongs to bBox_FM_API_Login given the extraction ordering isn't strictly linear — not repeated here to avoid misattributing it."
+          ]
+        },
+        "bBox_HTTP_DELETE": {
+          "name": "bBox_HTTP_DELETE",
+          "signature": "bBox_HTTP_DELETE ( URL ; user ; password ; {; skipSSLVerify} )",
+          "description": "Performs an HTTP DELETE request against the given URL with basic authentication.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "URL",
+              "description": "Request URL"
+            },
+            {
+              "name": "user",
+              "description": "Username (optional depending on target)"
+            },
+            {
+              "name": "password",
+              "description": "Password (optional depending on target)"
+            },
+            {
+              "name": "skipSSLVerify",
+              "description": "Optional flag to skip SSL certificate verification"
+            }
+          ],
+          "result": "Response body",
+          "error_reference": "none",
+          "notes": [
+            "See bBox_HTTP_GET's notes on this function family and the demo file's non-linear text extraction."
+          ]
+        },
+        "bBox_HTTP_PATCH": {
+          "name": "bBox_HTTP_PATCH",
+          "signature": "bBox_HTTP_PATCH ( URL ; credentials ; {; skipSSLVerify} )",
+          "description": "Performs an HTTP PATCH request against the given URL.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "URL",
+              "description": "Request URL"
+            },
+            {
+              "name": "credentials",
+              "description": "Combined credentials parameter — note this differs in shape from GET/DELETE's separate user;password, as confirmed in the demo file; not independently re-verified"
+            },
+            {
+              "name": "skipSSLVerify",
+              "description": "Optional flag to skip SSL certificate verification"
+            }
+          ],
+          "result": "Response body",
+          "error_reference": "none",
+          "notes": [
+            "See bBox_HTTP_GET's notes on this function family."
+          ]
+        },
+        "bBox_HTTP_POST": {
+          "name": "bBox_HTTP_POST",
+          "signature": "bBox_HTTP_POST ( base ; path ; credentials ; data )",
+          "description": "Sends an HTTP POST to the URL formed by base + path (path is URL-encoded, base is used as-is). Content-Type and Accept headers default to application/json — change via bBox_HTTP_Option.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "base",
+              "description": "Base URL, used as-is"
+            },
+            {
+              "name": "path",
+              "description": "Path appended to base; URL-encoded automatically (may be blank)"
+            },
+            {
+              "name": "credentials",
+              "description": "Authentication credentials"
+            },
+            {
+              "name": "data",
+              "description": "Request body"
+            }
+          ],
+          "result": "Response body",
+          "error_reference": "none",
+          "notes": [
+            "This entry's description is directly adjacent to its own signature in the demo file (unlike GET/DELETE above), so attribution here is solid."
+          ]
+        },
+        "bBox_HTTP_Option": {
+          "name": "bBox_HTTP_Option",
+          "signature": "bBox_HTTP_Option ( key {; value} )",
+          "description": "Sets HTTP settings or headers used by the HTTP-verb function family. Omit value to clear the named option. Server-side, options persist only for the current session.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "key",
+              "description": "Option or header name"
+            },
+            {
+              "name": "value",
+              "description": "Value to set; omit to clear the option"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none"
+        }
+      }
+    },
+    "Databases (DuckDB and SQLite)": {
+      "notes": "bBox 1.05+ uses DuckDB as its embedded database engine; the SQLite functions (bBox_SQLiteOpen/Exec/Options/Close) are documented by the vendor as being for \"older bBox versions\" and have no dedicated wiki pages — prefer the DuckDB functions in new work. Both engines use an open/exec/close reference lifecycle keyed by a session reference number (see shared_reference for thread-safety notes). bBox_ExecuteSQL is a separate, stateless one-shot query function that targets a file path directly rather than an open reference. bBox_SQLiteImport and bBox_DuckDBRun are registered by the plugin but explicitly marked \"Not Implemented\" in the vendor's own demo file — don't recommend either. A bBox_DuckDBOptions function also exists internally (the compiled plugin has a Do_DuckDBOptions handler, presumably parallel to bBox_SQLiteOptions) but no confirmed public signature or description was found in any available source — not catalogued here to avoid guessing at one; see meta.known_gaps.",
+      "functions": {
+        "bBox_DuckDBOpen": {
+          "name": "bBox_DuckDBOpen",
+          "signature": "bBox_DuckDBOpen ( path {; columnDelimiter ; rowDelimiter ; optionName1 ; optionValue1 ; ...} )",
+          "description": "Creates a DuckDB session using the file at the given POSIX path. If an empty string is specified, an in-memory database is used. Returns a reference number greater than 0 if successful.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "1.05",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "path",
+              "description": "POSIX path to the database file, or \"\" for an in-memory database"
+            },
+            {
+              "name": "columnDelimiter",
+              "description": "Optional column delimiter for formatting result text"
+            },
+            {
+              "name": "rowDelimiter",
+              "description": "Optional row delimiter for formatting result text"
+            },
+            {
+              "name": "optionName1 / optionValue1 ...",
+              "description": "Optional repeating name/value pairs for further DuckDB session options — the demo file's own text was truncated mid-signature at this point, so the exact repeat limit isn't confirmed"
+            }
+          ],
+          "result": "Reference number > 0 if successful",
+          "error_reference": "bBox_LastError ( $reference )",
+          "notes": [
+            "This is a materially richer signature than earlier reconstructed — the wiki has no dedicated page for this function at all, and the previous edition of this catalog under-reconstructed it as just `( path {; options} )`. Confirmed via the bBox Plug-in Demo file's embedded function reference, though the trailing optionName/optionValue repeat pattern is cut off in the source text and not fully confirmed."
+          ]
+        },
+        "bBox_DuckDBExec": {
+          "name": "bBox_DuckDBExec",
+          "signature": "bBox_DuckDBExec ( reference ; sqlQuery {; parameters} )",
+          "description": "Execute the DuckDB statement(s) against an open reference, using zero or more SQL parameters. Container data is converted to its GetAsText equivalent. SQL may call back into FileMaker via the fmevaluate function, e.g. SELECT fmevaluate (\"List (TABLE::field)\").",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_DuckDBExec.md",
+          "since": "1.05",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "Session ID returned by bBox_DuckDBOpen"
+            },
+            {
+              "name": "statement",
+              "description": "Text containing one or more DuckDB statements"
+            },
+            {
+              "name": "parameters",
+              "description": "Zero or more values used in the SQL statement(s) (optional)"
+            }
+          ],
+          "result": "Query result as text",
+          "error_reference": "bBox_LastError ( $reference )"
+        },
+        "bBox_DuckDBClose": {
+          "name": "bBox_DuckDBClose",
+          "signature": "bBox_DuckDBClose ( reference )",
+          "description": "Closes the DuckDB session created with bBox_DuckDBOpen. Once closed, the reference is invalid. If the in-memory storage option was used, all DuckDB data for the session is discarded.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_DuckDBClose.md",
+          "since": "1.05",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "Session reference returned by bBox_DuckDBOpen"
+            }
+          ],
+          "result": "0",
+          "error_reference": "may rarely return an error"
+        },
+        "bBox_ExecuteSQL": {
+          "name": "bBox_ExecuteSQL",
+          "signature": "bBox_ExecuteSQL ( filename ; sqlQuery {; columnSeparator ; rowSeparator ; arguments...} )",
+          "description": "Runs a SQL query directly against a database file path (or \"\" for the current file) without a persistent open reference. UPDATE, INSERT, and TRUNCATE are supported; CREATE, DROP, and ALTER should also work.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_ExecuteSQL.md",
+          "since": "0.3",
+          "compatibility": [
+            "WPE",
+            "WebDirect",
+            "Ubuntu",
+            "Server",
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "filename",
+              "description": "Name of the database file, or \"\" for the current file"
+            },
+            {
+              "name": "sqlQuery",
+              "description": "A valid SQL expression"
+            },
+            {
+              "name": "columnSeparator",
+              "description": "Delimiter for columns in output (defaults to tab)"
+            },
+            {
+              "name": "rowSeparator",
+              "description": "Delimiter for rows (defaults to newline)"
+            },
+            {
+              "name": "arguments",
+              "description": "Zero or more SQL parameters (optional)"
+            }
+          ],
+          "result": "Text result of the SQL expression, or \"?\" on error",
+          "error_reference": "bBox_LastError (\"sql\")",
+          "script_step_equivalent": "bBox Execute SQL [ Expression; Field Separator; Row Separator; Parameter 1; Parameter 2; Parameter 3; Parameter 4 ]",
+          "notes": [
+            "If a record is open on the same table being queried, the query will take longer than usual.",
+            "Can be run from any layout and can target another, previously-opened file.",
+            "For a JSON array result instead, consider bBox_JavaScript (\"fm.executesql ('SELECT ...')\"; \"JSON\") instead."
+          ]
+        },
+        "bBox_SQLiteOpen": {
+          "name": "bBox_SQLiteOpen",
+          "signature": "bBox_SQLiteOpen ( path {; options} )",
+          "description": "Creates a SQLite session using the file at the given POSIX path. If an empty string is specified, an in-memory database is used. Superseded by the DuckDB functions — the vendor's own docs note this function was slated to be replaced by bBox_DuckDBOpen in version 1.05.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.80 (marked for replacement by bBox_DuckDBOpen in 1.05)",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "path",
+              "description": "POSIX path to the database file, or \"\" for an in-memory database"
+            }
+          ],
+          "result": "A positive number indicates success and is the session ID",
+          "error_reference": "bBox_LastError ($reference)",
+          "notes": [
+            "since/compatibility/result/error confirmed via https://www.beezwax.net/bbox-sqliteopen (an older \"0.97+\"-era per-function vendor page) — including the explicit DuckDB-replacement note."
+          ]
+        },
+        "bBox_SQLiteExec": {
+          "name": "bBox_SQLiteExec",
+          "signature": "bBox_SQLiteExec ( reference ; sqlQuery {; parameters} )",
+          "description": "Executes a SQLite3 SQL statement using the session's file. Superseded by bBox_DuckDBExec.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.80",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "Session reference returned by bBox_SQLiteOpen"
+            },
+            {
+              "name": "sqlQuery",
+              "description": "SQL statement to execute"
+            },
+            {
+              "name": "parameters",
+              "description": "Zero or more bind values (optional)"
+            }
+          ],
+          "result": "Query result as text",
+          "error_reference": "bBox_LastError ($reference)",
+          "notes": [
+            "since/compatibility/error confirmed via https://www.beezwax.net/bbox-sqliteexec (an older \"0.97+\"-era per-function vendor page, 8 demo examples)."
+          ]
+        },
+        "bBox_SQLiteOptions": {
+          "name": "bBox_SQLiteOptions",
+          "signature": "bBox_SQLiteOptions ( reference ; columnSeparator ; rowSeparator {; options} )",
+          "description": "Sets the column/row separators used when formatting SQLite result sets as text. Use the options parameter to pass one or more SQLite option names, delimited with returns or commas.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.80",
+          "compatibility": [
+            "WPE",
+            "WebDirect",
+            "Ubuntu",
+            "Server",
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "Session reference returned by bBox_SQLiteOpen"
+            },
+            {
+              "name": "columnSeparator",
+              "description": "Delimiter for columns in output"
+            },
+            {
+              "name": "rowSeparator",
+              "description": "Delimiter for rows in output"
+            },
+            {
+              "name": "options",
+              "description": "Optional SQLite option name(s), return- or comma-delimited"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none",
+          "notes": [
+            "since/compatibility confirmed via https://www.beezwax.net/bbox-sqliteoptions (an older \"0.97+\"-era per-function vendor page) — that page has no prose description beyond the Parameters/Result/Error block."
+          ]
+        },
+        "bBox_SQLiteClose": {
+          "name": "bBox_SQLiteClose",
+          "signature": "bBox_SQLiteClose ( reference )",
+          "description": "Closes the SQLite3 session created with bBox_SQLiteOpen. Once closed, the reference will be invalid. If the in-memory storage option was used, all SQLite3 data for the session is also dumped.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.80",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "Session reference returned by bBox_SQLiteOpen"
+            }
+          ],
+          "result": "0, or a SQLite3 error code",
+          "error_reference": "none",
+          "notes": [
+            "Confirmed via https://www.beezwax.net/bbox-sqliteclose — an older (pre-1.06, \"0.97+\"-era) per-function vendor page, parallel to the current wiki but hosted on beezwax.net. Same page format as the wiki (Parameters/Result/Error/Script Step block, First appeared/Examples/Compatibility, prose description)."
+          ]
+        },
+        "bBox_SQLiteImport": {
+          "name": "bBox_SQLiteImport",
+          "signature": "bBox_SQLiteImport ( reference )",
+          "description": "Marked \"Not Implemented\" in the vendor's own bBox Plug-in Demo file reference text — the function name exists and is registered by the plugin, but does not do anything as of 1.06. Do not use.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "Session reference (per the vendor's own signature, though the function itself is a no-op)"
+            }
+          ],
+          "result": "Not Implemented",
+          "error_reference": "n/a"
+        },
+        "bBox_DuckDBRun": {
+          "name": "bBox_DuckDBRun",
+          "signature": "bBox_DuckDBRun",
+          "description": "Marked \"Not Implemented\" in the vendor's own bBox Plug-in Demo file reference text. The internal Do_DuckDBRun handler exists in the compiled plugin and the wiki's Script Step List names a \"bBox DuckDB Run\" script step, but neither a working signature nor behaviour is confirmed. Do not use.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "result": "Not Implemented",
+          "error_reference": "n/a"
+        }
+      }
+    },
+    "Text and Parsing": {
+      "notes": "Regex, list-comprehension-style iteration, and text-splitting utilities.",
+      "functions": {
+        "bBox_Sort": {
+          "name": "bBox_Sort",
+          "signature": "bBox_Sort ( mode ; text ; {; ...} )",
+          "description": "Sorts, or checks whether already sorted, the newline- or null-delimited lines of text. Input can come from the text parameter or a file path given in one of the other parameters. A sortedness check returns error 1 and result \"?\" if not sorted.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.3",
+          "compatibility": [
+            "WPE",
+            "WebDirect",
+            "Ubuntu",
+            "Server",
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = convert both input/output line endings; 1 = skip CR-to-LF on input; 2 = skip LF-to-CR on output; 3 = don't translate input or output line endings; 4 = don't wait for completion"
+            },
+            {
+              "name": "text",
+              "description": "Text to send to sort (\"\" if not needed, e.g. when sorting a file given via param1)"
+            },
+            {
+              "name": "param1",
+              "description": "Sort command option or file path, or \"\" — named separately in the vendor's own Parameters block even though the header signature folds it into the trailing {; ...}"
+            },
+            {
+              "name": "...",
+              "description": "Additional sort parameters or file paths (optional)"
+            }
+          ],
+          "result": "Sorted values, or the result of a sortedness check",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "notes": [
+            "Listed in Home.md's Function List and the third-party draft, but this catalog's original build missed it entirely — no entry existed at all. Signature and description confirmed via both the bBox Plug-in Demo file's embedded reference text and https://www.beezwax.net/bbox-sort (an older, \"0.97+\"-era per-function vendor page); the two sources agree on everything shown here, including the vendor's own inconsistency between the header signature (folds param1 into {; ...}) and its Parameters block (names param1 separately). Use -k/--key to specify sort key fields, -u/--unique to strip duplicates. See 'man sort' for the full option list."
+          ]
+        },
+        "bBox_Grep": {
+          "name": "bBox_Grep",
+          "signature": "bBox_Grep ( mode ; text ; param1 {; ...} )",
+          "description": "Execute a grep command to search text for one or more patterns (basic regular expressions, or extended with -E). For PCRE-style patterns, bBox_JavaScript may be a better fit.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Grep.md",
+          "since": "0.3",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = convert both line endings, wait for output; 1 = skip CR-to-LF on input; 2 = skip LF-to-CR on output; 3 = don't translate input or output line endings"
+            },
+            {
+              "name": "text",
+              "description": "Input text to be processed (may be \"\" if passing a file path as one of the parameters)"
+            },
+            {
+              "name": "param1",
+              "description": "Normally the search string, but can also contain command option(s) or a file path"
+            },
+            {
+              "name": "...",
+              "description": "Additional parameters (optional)"
+            }
+          ],
+          "result": "Output returned by grep as text",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "script_step_equivalent": "bBox Grep [ Text; Option 1; Option 2; Option 3; Option 4 ]",
+          "notes": [
+            "Supports container field references (see shared_reference.container_field_references).",
+            "See `man grep` in Terminal for full pattern syntax."
+          ]
+        },
+        "bBox_EvaluateList": {
+          "name": "bBox_EvaluateList",
+          "signature": "bBox_EvaluateList ( values ; expression {; delimiter} )",
+          "description": "For each value in a delimited list, apply the given expression and append it to the result — similar to a Python list comprehension, giving a way to loop within a FileMaker calculation.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_EvaluateList.md",
+          "since": "0.70",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "values",
+              "description": "Delimited list of string values"
+            },
+            {
+              "name": "expression",
+              "description": "An expression in the same form as FileMaker's native Evaluate function"
+            },
+            {
+              "name": "delimiter",
+              "description": "String used as the delimiter, defaulting to a return character. If passed \"\", each character in values is treated as a separate value"
+            }
+          ],
+          "result": "Text result",
+          "error_reference": "none — returns \"?\" as result on error",
+          "notes": [
+            "Two variables are preset during evaluation: $i (current iteration number, starting at 1) and $v (current value in the list, like $values[$i])."
+          ],
+          "example_code": "bBox_EvaluateList (\n   \"some Characters to Test with\";\n   \"If (Code ($v) < Code (\\\"A\\\") or Code ($v) > Code (\\\"Z\\\"); $v; \\\"\\\")\";\n   \"\"\n)"
+        },
+        "bBox_SplitText": {
+          "name": "bBox_SplitText",
+          "signature": "bBox_SplitText ( text ; position ; length ; skipRepeats ; separator1 ; separator2 ; delimiter )",
+          "description": "Returns a version of the source text with the separator(s) replaced by the delimiter — commonly used to \"split\" text into lines. Only the substring within the given position and length is processed. Unlike Substitute, correctly collapses adjacent separators into one when skipRepeats is set.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_SplitText.md",
+          "since": "0.99",
+          "compatibility": [
+            "Client",
+            "Server",
+            "macOS",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "text",
+              "description": "Source text"
+            },
+            {
+              "name": "position",
+              "description": "Index into source text to start the scan"
+            },
+            {
+              "name": "length",
+              "description": "Index of the last character to scan"
+            },
+            {
+              "name": "skipRepeats",
+              "description": "True (1) if no separator should be added when separators are adjacent"
+            },
+            {
+              "name": "separator1",
+              "description": "First separator text to use; often a tab or space"
+            },
+            {
+              "name": "separator2",
+              "description": "Second separator; often a return/newline"
+            },
+            {
+              "name": "delimiter",
+              "description": "Text to substitute in for matching separators"
+            }
+          ],
+          "result": "Result of the scanned text after substitution",
+          "error_reference": "none",
+          "example_code": "bBox_SplitText ($text; 0; 9999; 0; \":\"; ¶; ¶)  // replace : and ¶ with ¶, keeping blank lines\nbBox_SplitText ($text; 0; 9999; 1; \":\"; ¶; ¶)  // same, with skipRepeats collapsing blank lines",
+          "doc_bug_note": "The live wiki page's parameter list for `text` reads \"source texttext: sent to NodeJS' stdin\" — the second clause is a copy/paste fragment of bBox_JavaScriptNode's `script` parameter description, not part of bBox_SplitText's own docs. Ignored here; `text` is simply the source text to scan."
+        },
+        "bBox_ParsePositionList": {
+          "name": "bBox_ParsePositionList",
+          "signature": "bBox_ParsePositionList ( text )",
+          "description": "Using a syntax similar to the POSIX `cut` command, converts a field-list expression (numbers, dashes, commas) into a string of \"0\"/\"1\" flags indicating which fields were selected. A trailing \"+\" indicates an open-ended range.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_ParsePositionList.md",
+          "since": "1.04",
+          "compatibility": [
+            "Client",
+            "Server",
+            "macOS",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "text",
+              "description": "Field expression using numbers, dashes, and commas"
+            }
+          ],
+          "result": "Result of the scanned text after substitution (a string of 0/1 flags, optionally ending in +)",
+          "error_reference": "none (blank result)",
+          "notes": [
+            "Examples: \"2,4,6,8\" → \"01010101\"; \"2-3,7\" → \"0110001\"; \"1,5-\" → \"10001+\"."
+          ]
+        },
+        "bBox_GetCharacterStyle": {
+          "name": "bBox_GetCharacterStyle",
+          "signature": "bBox_GetCharacterStyle ( text ; position )",
+          "description": "Returns the typeface and colour information for the character at a given position in styled text. A position of -1 gives the default text style; a position past the end of text returns the attributes of the last character.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_GetCharacterStyle.md",
+          "compatibility": [
+            "WPE",
+            "WebDirect",
+            "Ubuntu",
+            "Server",
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "text",
+              "description": "Text to be examined"
+            },
+            {
+              "name": "position",
+              "description": "Position of the character to return style information for"
+            }
+          ],
+          "result": "A return-delimited list: font name, font id (per FileMaker client instance), font size, typeface style (comma-delimited text), RGB colour + alpha (comma-delimited text)",
+          "error_reference": "bBox_LastError (\"util\")",
+          "script_step_equivalent": "bBox Get Character Style [ Text; Position ]",
+          "notes": [
+            "For style information across an entire run of text, FileMaker's native GetAsCSS function may be a better fit."
+          ],
+          "doc_bug_note": "The live wiki page's Parameters block labels the first parameter `test:` instead of `text:` — a typo in the upstream source, corrected here."
+        }
+      }
+    },
+    "Files and Filesystem": {
+      "notes": "File I/O and metadata functions. All paths are POSIX-format (see shared_reference.file_paths); bBox_FileRead/Write/Status/SymLink have no dedicated wiki pages but are confirmed via the bBox Plug-in Demo file's embedded reference text, and referenced throughout Parameters.md and the Errors table's bBox_File* entry.",
+      "functions": {
+        "bBox_FileRead": {
+          "name": "bBox_FileRead",
+          "signature": "bBox_FileRead ( path ; type {; offset ; filename} )",
+          "description": "Returns the contents of the file at a POSIX path, for reading into a variable or field. For text data types, the character encoding must be known (typically UTF-8). Input is truncated at 2 GB as a safety measure.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.63",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "path",
+              "description": "POSIX path to the file — a literal value; do not escape characters or enclose in quotes"
+            },
+            {
+              "name": "type",
+              "description": "Result data type: Raw, Best Guess, UTF-8, or UTF-16 (per the demo file's script-step parameter list)"
+            },
+            {
+              "name": "offset",
+              "description": "Optional byte offset into the file"
+            },
+            {
+              "name": "filename",
+              "description": "Optional alternate filename for the container result — useful for normalizing file names on import"
+            }
+          ],
+          "result": "Container reference in the chosen type, or text",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "notes": [
+            "since/compatibility/behavioural detail confirmed via https://www.beezwax.net/bbox-fileread (an older \"0.97+\"-era per-function vendor page)."
+          ]
+        },
+        "bBox_FileWrite": {
+          "name": "bBox_FileWrite",
+          "signature": "bBox_FileWrite ( data ; path {; append ; unzip} )",
+          "description": "Writes data out to a file at the given POSIX path. The source of data can be either a container reference or text. Set append to true to add to an existing file of the same name rather than overwrite it (be sure the destination folder already exists). Set unzip to true to also write out a decompressed copy if the file is compressed.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.63",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "data",
+              "description": "Container reference or text to write"
+            },
+            {
+              "name": "path",
+              "description": "POSIX destination path — a literal value; do not escape characters or enclose in quotes"
+            },
+            {
+              "name": "append",
+              "description": "Optional boolean — true adds to an existing file of the same name"
+            },
+            {
+              "name": "unzip",
+              "description": "Optional boolean — true also writes out a decompressed copy if the source is compressed"
+            }
+          ],
+          "result": "Number of bytes written (negative on error) — for text, often but not always the same as the character count, since non-ASCII characters may need more than one byte",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "notes": [
+            "The original build of this catalog missed the `unzip` parameter entirely, reconstructing this as just `( data ; path {; append} )` — corrected from the demo file's embedded reference text, which shows all four parameters. since/compatibility/result detail confirmed via https://www.beezwax.net/bbox-filewrite (an older \"0.97+\"-era per-function vendor page)."
+          ]
+        },
+        "bBox_FileStatus": {
+          "name": "bBox_FileStatus",
+          "signature": "bBox_FileStatus ( filePath {; parameter} )",
+          "description": "Runs the stat command against the given path to return its size, permissions, and modification times for a file or folder. See 'man stat' in Terminal for the full list of possible parameter options.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.3",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "filePath",
+              "description": "POSIX path to the file or folder — a literal value; do not escape characters or enclose in quotes"
+            },
+            {
+              "name": "parameter",
+              "description": "Optional stat parameter — see 'man stat' for the available list"
+            }
+          ],
+          "result": "File size, type, POSIX permissions, and access information as given by stat",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "notes": [
+            "The first parameter is named filePath in the demo file's own text, not path as this catalog's original reconstruction had it — corrected. since/compatibility confirmed via https://www.beezwax.net/bbox-filestatus (an older \"0.97+\"-era per-function vendor page)."
+          ]
+        },
+        "bBox_FileSymLink": {
+          "name": "bBox_FileSymLink",
+          "signature": "bBox_FileSymLink ( sourcePath ; destinationPath {; hardLink} )",
+          "description": "Creates a symbolic link at the destination POSIX path pointing to the source path — equivalent to ln -s in Terminal. Set hardLink to true to create a hard link instead, which is only possible when the source is a file and both paths are on the same volume. Error #17 occurs if the destination already exists.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.63",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "sourcePath",
+              "description": "POSIX source path"
+            },
+            {
+              "name": "destinationPath",
+              "description": "POSIX destination path for the new link"
+            },
+            {
+              "name": "hardLink",
+              "description": "Optional boolean — true creates a hard link instead of a symlink (files only, same volume only)"
+            }
+          ],
+          "result": "none",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "notes": [
+            "The optional third parameter is named hardLink in the demo file's own text, not useHardLink as this catalog's original reconstruction had it — corrected. since/compatibility/behavioural detail (ln -s equivalence, same-volume requirement, error #17 on existing destination) confirmed via https://www.beezwax.net/bbox-filesymlink (an older \"0.97+\"-era per-function vendor page). One of the demo's two script-step parameter lists also shows a fourth generic \"Parameter\" slot whose purpose isn't described anywhere — not included here since its meaning is unconfirmed."
+          ]
+        },
+        "bBox_MimeTypeForPath": {
+          "name": "bBox_MimeTypeForPath",
+          "signature": "bBox_MimeTypeForPath ( path )",
+          "description": "Returns the MIME type (\"IANA media type\") inferred for a given file path, e.g. \"image/png\" for a PNG file path.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_MimeTypeForPath.md",
+          "since": "0.99",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server"
+          ],
+          "parameters": [
+            {
+              "name": "path",
+              "description": "POSIX path to a file"
+            }
+          ],
+          "result": "Mime type, or \"\" if no file exists at path",
+          "error_reference": "none"
+        }
+      }
+    },
+    "Scripting Languages (JavaScript, Node, Python, Ruby, jq)": {
+      "notes": "bBox embeds several language runtimes. JavaScript (JavaScriptCore) and Python/Node can expose an `fm` bridge object/class back into FileMaker — see shared_reference.native_fm_bridge. The Python session functions (Compile/Execute/Eval/GetVar/SetVar/Finalize) share ONE process-wide Python VM — see shared_reference.thread_and_session_safety before running them concurrently; bBox_Python3Run is the thread-safe, non-session alternative but cannot use the fm bridge.",
+      "functions": {
+        "bBox_JavaScript": {
+          "name": "bBox_JavaScript",
+          "signature": "bBox_JavaScript ( expression {; delimiter ; ...} )",
+          "description": "Evaluate one or more JavaScript expressions or statements (complete scripts or a simple calculated result). Each expression has access to globals created by earlier expressions in the same call. Session and thread safe.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_JavaScript.md",
+          "since": "0.86",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Ubuntu",
+            "Server",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "expression",
+              "description": "The first JavaScript statement or expression"
+            },
+            {
+              "name": "delimiter",
+              "description": "Demarcates results for each expression, or a null string. \"JSON\" as the delimiter (0.86+... actually 1.00+) returns JSON text output directly"
+            },
+            {
+              "name": "param3...param16",
+              "description": "Additional JavaScript expressions using the same context (optional)"
+            }
+          ],
+          "result": "Output returned by JavaScript as text",
+          "error_reference": "bBox_LastError (\"js\") — session safe, but not thread safe for the error result itself",
+          "notes": [
+            "If multiple expressions are given and delimiter is a null string, only the result of the last expression is returned.",
+            "Requires the libjavascriptcoregtk library on Ubuntu (added in bBox 1.00).",
+            "\"JSON\" as the delimiter value avoids needing to JSON-encode output manually in JavaScript, but each expression's output is converted separately and concatenated without additional delimiters when multiple expressions are given."
+          ]
+        },
+        "bBox_JavaScriptNode": {
+          "name": "bBox_JavaScriptNode",
+          "signature": "bBox_JavaScriptNode ( mode ; text ; script {; param1 ; ...} )",
+          "description": "Executes a script file (container reference or POSIX path) using FileMaker Server's Node.js environment, rather than JavaScriptCore. Typically server-side only, unless both Pro and Server are installed locally or the alternate-path mode is set. Session and thread safe. Parameters may change in a future version.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_JavaScriptNode.md",
+          "since": "0.99",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "4 = run asynchronously; 16 = use alternate installation path for node executable (0.99.8+); 32 = combine stdout & stderr (useful when debugging); 64 = expand .zip container files, passing the directory path instead (not for the main script parameter)"
+            },
+            {
+              "name": "text",
+              "description": "Sent to Node's stdin"
+            },
+            {
+              "name": "script",
+              "description": "Path or container reference of the main script"
+            },
+            {
+              "name": "...",
+              "description": "Additional parameters for the node command (optional)"
+            }
+          ],
+          "result": "Output returned by JavaScript as text",
+          "error_reference": "bBox_LastError (\"js\")",
+          "notes": [
+            "See the Node.js documentation (v22.14 at time of writing) for node's own parameters."
+          ]
+        },
+        "bBox_JQ": {
+          "name": "bBox_JQ",
+          "signature": "bBox_JQ ( mode ; text ; param1 {; ...} )",
+          "description": "Evaluate the given JSON text using a jq expression — useful for JSON transformations beyond FileMaker's native JSON functions. On Ubuntu, the jq package must be installed separately (sudo apt install jq).",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_JQ.md",
+          "since": "0.95",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = convert both line endings; 1 = skip CR-to-LF on input; 2 = skip LF-to-CR on output; 3 = don't translate input or output line endings"
+            },
+            {
+              "name": "text",
+              "description": "JSON text to be parsed"
+            },
+            {
+              "name": "param1",
+              "description": "First jq option or expression"
+            },
+            {
+              "name": "param3...param16",
+              "description": "Additional jq options or expressions (optional)"
+            }
+          ],
+          "result": "Output returned by jq as text",
+          "error_reference": "bBox_LastError (-1)",
+          "notes": [
+            "See the jq manual (https://stedolan.github.io/jq/manual/) for operator syntax.",
+            "Supports container field references (see shared_reference.container_field_references)."
+          ]
+        },
+        "bBox_Ruby": {
+          "name": "bBox_Ruby",
+          "signature": "bBox_Ruby ( mode ; text ; param1 {; param2 ; ... ; param5} )",
+          "description": "Executes a script using the Ruby interpreter, analogous to bBox_Bash/bBox_Python3Run.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Ruby.md",
+          "compatibility": [
+            "macOS",
+            "Ubuntu",
+            "Server",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = convert both line endings; 1 = skip CR-to-LF on input; 2 = skip LF-to-CR on output; 3 = don't translate input or output; 4 = run asynchronously (0.96+); 16 = use alternate path at /usr/local/bin (0.96+)"
+            },
+            {
+              "name": "text",
+              "description": "Input text to be processed (sent to stdin)"
+            },
+            {
+              "name": "param1",
+              "description": "Ruby option (optional)"
+            },
+            {
+              "name": "...param5",
+              "description": "Additional Ruby options (optional, up to param5)"
+            }
+          ],
+          "result": "Output (stdout) from the Ruby script",
+          "error_reference": "bBox_LastError (-1)",
+          "notes": [
+            "Supports container field references (see shared_reference.container_field_references)."
+          ]
+        },
+        "bBox_Python3Run": {
+          "name": "bBox_Python3Run",
+          "signature": "bBox_Python3Run ( mode ; script {; text ; param1 ; ...} )",
+          "description": "Runs a Python 3 script in a fresh interpreter invocation each time — a simpler, non-persistent, thread-safe alternative to the Compile/Execute/GetVar/SetVar/Finalize session-based functions. Does not support the fm bridge module.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Python3Run.md",
+          "since": "0.90",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = convert both line endings, wait for output; 1 = skip CR-to-LF on input; 2 = skip LF-to-CR on output; 3 = don't translate input or output; 4 = run asynchronously; 16 = use alternate Python command path; 32 = combine stdout & stderr"
+            },
+            {
+              "name": "script",
+              "description": "Text to be compiled into bytecode"
+            },
+            {
+              "name": "param1...",
+              "description": "Optional parameters for the python3 command, retrievable in Python via sys.argv"
+            }
+          ],
+          "result": "Text sent to stdout",
+          "error_reference": "bBox_LastError (-3)",
+          "script_step_equivalent": "bBox Python3 Run [ Mode: Script: Input: Param1: Param2: Param3: ]",
+          "notes": [
+            "Requires the Python Software Foundation's Python on macOS (default path /usr/local/bin/python3, alternate /usr/bin/python3); apt-get on Ubuntu (default /usr/bin/python3, alternate /usr/local/bin/python3).",
+            "Add Linux dist-packages paths manually if needed: sys.path.append('/usr/local/lib/python3.10/dist-packages').",
+            "Use mode 32 while testing/debugging — otherwise Python syntax-error messages sent to stderr are lost and only bBox_LastError's own message remains.",
+            "Thread safe — multiple Python 3 scripts can safely run at the same time (unlike the Compile/Execute session functions)."
+          ],
+          "example_code": "bBox_Python3Run(32; \"y=5/0\") & ¶ & bBox_LastError(-1) & ¶ & bBox_LastError(-3)\n// returns: ?\n// 1\n// Traceback (most recent call last): ... ZeroDivisionError: division by zero"
+        },
+        "bBox_PythonCompile": {
+          "name": "bBox_PythonCompile",
+          "signature": "bBox_PythonCompile ( mode ; script )",
+          "description": "Initialises the Python environment and compiles the script into bytecode for later execution via bBox_PythonExecute. Only one Python VM exists process-wide (see shared_reference.thread_and_session_safety).",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_PythonCompile.md",
+          "since": "0.50",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = convert both line endings; 1 = skip CR-to-LF on input; 8 = keep any previous globals; 9 = skip conversion and keep previous globals"
+            },
+            {
+              "name": "script",
+              "description": "Text to be compiled and executed later"
+            }
+          ],
+          "result": "Session reference",
+          "error_reference": "bBox_LastError ($reference)",
+          "notes": [
+            "By default, a previously created but not-yet-finalized Python environment is released (possibly setting an error) when this is called again; add 8 to mode to keep it persistent (e.g. to retain globals from the last execution).",
+            "When run via PSoS/schedules, check whether another session is already using the shared Python environment before compiling — only one copy exists at a time. bBox_Python3Run avoids this by spawning separate instances.",
+            "Over 30 example Python scripts ship in the bBox Plug-in Demo file."
+          ]
+        },
+        "bBox_PythonExecute": {
+          "name": "bBox_PythonExecute",
+          "signature": "bBox_PythonExecute ( mode )",
+          "description": "Executes the previously compiled Python session code from bBox_PythonCompile. The script's stdout output is returned as the result (e.g. via a print statement); results can also be retrieved afterward with bBox_PythonGetVar, or pushed into a FileMaker table via fm.executesql. If an uncaught Python exception occurs, \"?\" is returned and bBox_LastError returns the exception text. Call bBox_PythonFinalize when done with the environment.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.50",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "Line-ending/behaviour flags, shared with other Python-family functions"
+            }
+          ],
+          "result": "stdout output of the executed script, or \"?\" on an uncaught exception",
+          "error_reference": "bBox_LastError (-3) — not thread or session safe",
+          "notes": [
+            "since/compatibility/behavioural detail (exception handling, output-retrieval options, a future version requiring the bBox_PythonCompile session reference) confirmed via https://www.beezwax.net/bbox-pythonexecute (an older \"0.97+\"-era per-function vendor page)."
+          ]
+        },
+        "bBox_PythonEval": {
+          "name": "bBox_PythonEval",
+          "signature": "bBox_PythonEval ( reference ; expression )",
+          "description": "Evaluates a Python expression or simple function call within an existing session (bBox_PythonCompile must have been called first) and returns the evaluated value.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "Session reference — note bBox's own text refers to \"bBox_Compile\", almost certainly meaning bBox_PythonCompile"
+            },
+            {
+              "name": "expression",
+              "description": "Python expression or simple function call to evaluate"
+            }
+          ],
+          "result": "The evaluated value",
+          "error_reference": "bBox_LastError (-3) — not thread or session safe",
+          "doc_bug_note": "CONFLICTING SOURCES, not resolved: the demo file (1.06-era, three identical occurrences) consistently shows this exact 2-parameter, session-based signature and description above. But https://www.beezwax.net/bbox-pythoneval (an older \"0.97+\"-era per-function vendor page, since 0.84) describes a materially DIFFERENT, 1-parameter function: `bBox_PythonEval( expression )`, explicitly described as \"a shorter, one-shot version of what PythonCompile/PythonExecute/PythonFinalize does\" that \"invokes Python directly via the Python library\" rather than depending on an existing compiled session — no reference parameter at all, error `bBox_LastError (\"python\")` instead of `(-3)`. These read as two genuinely different function behaviours, not a formatting inconsistency — either the function was changed to add a reference parameter sometime after 0.84, or one source is simply wrong. Kept the demo file's (newer, 1.06) version as primary since it's the more current source, but do not trust either signature without testing directly in FileMaker first."
+        },
+        "bBox_PythonGetVar": {
+          "name": "bBox_PythonGetVar",
+          "signature": "bBox_PythonGetVar ( name )",
+          "description": "Returns the value of a named Python global variable. Defaults to treating it as a string; the type can be specified via bBox_PythonSetVar's asType to avoid unwanted conversion.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_PythonGetVar.md",
+          "since": "0.51",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "name",
+              "description": "Python variable name to return the value of"
+            }
+          ],
+          "result": "Date, numeric, or text value from the variable",
+          "error_reference": "bBox_LastError (-3)",
+          "notes": [
+            "Python globals are released when bBox_PythonFinalize is called, so extract needed values first.",
+            "Returns an empty string if the named Python variable does not exist.",
+            "A future bBox version may require the session reference ID from bBox_PythonCompile as a parameter."
+          ]
+        },
+        "bBox_PythonSetVar": {
+          "name": "bBox_PythonSetVar",
+          "signature": "bBox_PythonSetVar ( name ; value {; asType} )",
+          "description": "Creates or replaces a Python global variable with a given name and value. The preferred way to supply input to a compiled script (Python functions don't support stdin), so call after bBox_PythonCompile but before bBox_PythonExecute.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_PythonSetVar.md",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "name",
+              "description": "Python variable name"
+            },
+            {
+              "name": "value",
+              "description": "Container, numeric, or string value to store in the Python variable"
+            },
+            {
+              "name": "asType",
+              "description": "Optional type override: b = Bool, d = Date, f = Float, F = bytearray (container/text file data), i = Integer, m = DateTime, s = String (default, UTF-16)"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none",
+          "notes": [
+            "A future bBox version may require the session reference ID from bBox_PythonCompile as a parameter.",
+            "compatibility confirmed via https://www.beezwax.net/bbox-pythonsetvar (an older \"0.97+\"-era per-function vendor page) — the wiki page itself doesn't state one."
+          ]
+        },
+        "bBox_PythonFinalize": {
+          "name": "bBox_PythonFinalize",
+          "signature": "bBox_PythonFinalize",
+          "description": "Releases the current Python environment from memory.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_PythonFinalize.md",
+          "result": "none",
+          "error_reference": "none",
+          "notes": [
+            "IMPORTANT: only one shared Python VM exists across server-side processes — implement your own locking if PSoS/schedules may overlap. CWP scripts get their own separate copy.",
+            "A future version will require the session reference ID from bBox_PythonCompile as a parameter."
+          ]
+        }
+      }
+    },
+    "Images": {
+      "notes": "GraphicsMagick works cross-platform (with extra Linux dependencies); sips is macOS-only but can leverage hardware acceleration GraphicsMagick can't.",
+      "functions": {
+        "bBox_GraphicsMagick": {
+          "name": "bBox_GraphicsMagick",
+          "signature": "bBox_GraphicsMagick ( mode ; param1 ; param2 {; param3 ; ...} )",
+          "description": "Executes a gm command to manipulate, compare, or describe image files. Each gm option/value/switch is typically a separate FileMaker parameter.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_GraphicsMagick.md",
+          "since": "0.98",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = wait for output; 4 = run asynchronously (no wait); 32 = combine stdout & stderr"
+            },
+            {
+              "name": "param1, param2, ...",
+              "description": "One or more options sent to the gm command"
+            }
+          ],
+          "result": "Any text output returned by the gm command",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "script_step_equivalent": "bBox GraphicsMagick",
+          "notes": [
+            "The macOS-bundled version supports: large files (<32-bit), BZIP, JBIG, JPEG, LCMS, PNG, SVG (Ubuntu only), TIFF, ZLIB.",
+            "Requires extra installation steps on Ubuntu — see the Installation reference.",
+            "See bBox_Sips for a macOS-only alternative that may perform better and support additional formats."
+          ]
+        },
+        "bBox_Sips": {
+          "name": "bBox_Sips",
+          "signature": "bBox_Sips ( mode ; param1 {; param2 ; ...} )",
+          "description": "Performs image conversion/manipulation using macOS's built-in sips tool. macOS only; see bBox_GraphicsMagick for a Linux-compatible alternative (though GraphicsMagick is less likely to leverage hardware acceleration).",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Sips.md",
+          "since": "0.98",
+          "compatibility": [
+            "macOS",
+            "Client",
+            "Server",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "0 = wait for output; 4 = run asynchronously (no wait); 32 = combine stdout & stderr"
+            },
+            {
+              "name": "param1, param2, ...",
+              "description": "One or more options sent to the sips command"
+            }
+          ],
+          "result": "Output returned by the sips command as text",
+          "error_reference": "bBox_LastError (\"posix\")",
+          "notes": [
+            "See `man sips` in Terminal for usage details."
+          ],
+          "example_code": "bBox_Sips (\n   32;\n   \"-s\"; \"format\"; \"heic\";\n   \"/System/Library/Templates/Data/Library/User Pictures/Nature/Earth.png\";\n   \"--out\" \"/tmp/Earth.heic\"\n)\n// 7 total parameters — each item must be its own separate parameter"
+        }
+      }
+    },
+    "Clipboard (Pasteboard)": {
+      "notes": "macOS-only. UTI codes identify each clipboard \"flavor\" (data type) — see Apple's System-Declared Uniform Type Identifiers reference.",
+      "functions": {
+        "bBox_PasteboardFlavors": {
+          "name": "bBox_PasteboardFlavors",
+          "signature": "bBox_PasteboardFlavors ( {item} )",
+          "description": "Get all possible data types (\"flavors\") currently on the system pasteboard, as a return-delimited list. If item is specified, only that item's flavors are returned.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_PasteboardFlavors.md",
+          "since": "0.3",
+          "compatibility": [
+            "Client",
+            "macOS"
+          ],
+          "parameters": [
+            {
+              "name": "item",
+              "description": "Item index (optional, base 1)"
+            }
+          ],
+          "result": "List of UTI codes for the available flavors",
+          "error_reference": "bBox_LastError (\"util\")",
+          "notes": [
+            "No result if the clipboard is empty or the index is out of range."
+          ]
+        },
+        "bBox_PasteboardGet": {
+          "name": "bBox_PasteboardGet",
+          "signature": "bBox_PasteboardGet ( mode ; item ; flavor )",
+          "description": "Get data from the user's clipboard as text.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_PasteboardGet.md",
+          "since": "0.3",
+          "compatibility": [
+            "Client",
+            "macOS"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "3 = UTF-8 encoding, don't translate line endings; 4 = expect 2-byte (UTF-16) characters in output"
+            },
+            {
+              "name": "item",
+              "description": "Item index, usually 1"
+            },
+            {
+              "name": "flavor",
+              "description": "UTI code for one of the flavors currently on the clipboard"
+            }
+          ],
+          "result": "Value for the given item and flavor, or \"?\" if the flavor does not exist",
+          "error_reference": "bBox_LastError (\"util\")",
+          "notes": [
+            "Size limit was 20 MB up to version 0.99.16; later versions allow up to 40 MB."
+          ]
+        },
+        "bBox_PasteboardSet": {
+          "name": "bBox_PasteboardSet",
+          "signature": "bBox_PasteboardSet ( mode ; flavor ; data )",
+          "description": "Set the contents of the clipboard to the given text data and flavor. Always clears any previous clipboard contents first, so only one flavor can be present at a time.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_PasteboardSet.md",
+          "since": "0.3",
+          "compatibility": [
+            "Client",
+            "macOS"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "3 = UTF-8 encoding, don't translate line endings; 4 = 2-byte (UTF-16) characters in output"
+            },
+            {
+              "name": "flavor",
+              "description": "UTI code to use for the data added to the clipboard"
+            },
+            {
+              "name": "data",
+              "description": "The data to place on the clipboard"
+            }
+          ],
+          "result": "0, or the Pasteboard error code",
+          "error_reference": "bBox_LastError (\"util\")"
+        }
+      }
+    },
+    "WebViewer Control": {
+      "notes": "Functions for driving a named WebViewer layout object — none have dedicated wiki pages, but all are confirmed via the bBox Plug-in Demo file's embedded reference text. All take window and webviewer object index numbers as their first two parameters.",
+      "functions": {
+        "bBox_WebViewLoadHTML": {
+          "name": "bBox_WebViewLoadHTML",
+          "signature": "bBox_WebViewLoadHTML ( window ; webviewer ; HTML {; baseurl} )",
+          "description": "Loads the given HTML into the WebViewer at the given z-index. The base URL is used as a starting point for any relative URLs. Any previous content must have finished loading first — check bBox_WebViewIsLoading before calling this if unsure.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "window",
+              "description": "Window index"
+            },
+            {
+              "name": "webviewer",
+              "description": "WebViewer object index (z-index)"
+            },
+            {
+              "name": "HTML",
+              "description": "HTML content to load"
+            },
+            {
+              "name": "baseurl",
+              "description": "Optional base URL for resolving relative URLs in the HTML"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none confirmed"
+        },
+        "bBox_WebViewLoadFile": {
+          "name": "bBox_WebViewLoadFile",
+          "signature": "bBox_WebViewLoadFile ( window ; webviewer ; path )",
+          "description": "Loads the file at the given POSIX path into the WebViewer; the file's parent folder is used as the base URL.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "window",
+              "description": "Window index"
+            },
+            {
+              "name": "webviewer",
+              "description": "WebViewer object index (z-index)"
+            },
+            {
+              "name": "path",
+              "description": "POSIX path to the file to load"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none confirmed"
+        },
+        "bBox_WebViewEvaluateJavaScript": {
+          "name": "bBox_WebViewEvaluateJavaScript",
+          "signature": "bBox_WebViewEvaluateJavaScript ( window ; webviewer ; script {; handlerFileName ; handlerScriptName} )",
+          "description": "Executes the given JavaScript text using the WebViewer at the given z-index. An optional FileMaker script handler is called once the JavaScript has returned its result.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "window",
+              "description": "Window index"
+            },
+            {
+              "name": "webviewer",
+              "description": "WebViewer object index (z-index)"
+            },
+            {
+              "name": "script",
+              "description": "JavaScript text to execute"
+            },
+            {
+              "name": "handlerFileName",
+              "description": "Optional FileMaker file containing the callback script"
+            },
+            {
+              "name": "handlerScriptName",
+              "description": "Optional FileMaker script to call with the result"
+            }
+          ],
+          "result": "none directly — result delivered to the handler script if given",
+          "error_reference": "none confirmed"
+        },
+        "bBox_WebViewIsLoading": {
+          "name": "bBox_WebViewIsLoading",
+          "signature": "bBox_WebViewIsLoading ( window ; webviewer )",
+          "description": "Returns true if the WebViewer is still loading content.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "window",
+              "description": "Window index"
+            },
+            {
+              "name": "webviewer",
+              "description": "WebViewer object index (z-index)"
+            }
+          ],
+          "result": "Boolean",
+          "error_reference": "none confirmed"
+        },
+        "bBox_WebViewEstimatedProgress": {
+          "name": "bBox_WebViewEstimatedProgress",
+          "signature": "bBox_WebViewEstimatedProgress ( window ; webviewer )",
+          "description": "Returns the estimated load progress of the WebViewer, where 1.0 is 100%.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "window",
+              "description": "Window index"
+            },
+            {
+              "name": "webviewer",
+              "description": "WebViewer object index (z-index)"
+            }
+          ],
+          "result": "Number between 0 and 1",
+          "error_reference": "none confirmed"
+        },
+        "bBox_WebViewTitle": {
+          "name": "bBox_WebViewTitle",
+          "signature": "bBox_WebViewTitle ( window ; webviewer )",
+          "description": "Returns the page title for the given WebViewer.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "window",
+              "description": "Window index"
+            },
+            {
+              "name": "webviewer",
+              "description": "WebViewer object index (z-index)"
+            }
+          ],
+          "result": "Page title as text",
+          "error_reference": "none confirmed"
+        },
+        "bBox_WebViewPrint": {
+          "name": "bBox_WebViewPrint",
+          "signature": "bBox_WebViewPrint ( window ; webviewer )",
+          "description": "Requests that the WebViewer be printed.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "window",
+              "description": "Window index"
+            },
+            {
+              "name": "webviewer",
+              "description": "WebViewer object index (z-index)"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none confirmed",
+          "notes": [
+            "Not present anywhere in the wiki or third-party draft — found only via the demo file's embedded reference text."
+          ]
+        },
+        "bBox_WebViewHistory": {
+          "name": "bBox_WebViewHistory",
+          "signature": "bBox_WebViewHistory ( window ; webviewer ; path )",
+          "description": "Purpose not confidently established — see doc_bug_note.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "window",
+              "description": "Window index"
+            },
+            {
+              "name": "webviewer",
+              "description": "WebViewer object index (z-index)"
+            },
+            {
+              "name": "path",
+              "description": "POSIX path (per the signature; role unclear given the description mismatch)"
+            }
+          ],
+          "result": "Unconfirmed",
+          "error_reference": "none confirmed",
+          "doc_bug_note": "The demo file's own description for this function (\"Loads the file into Web Viewer. Path is given in POSIX format.\") is nearly identical to bBox_WebViewLoadFile's, and appears identically all three times this function is listed in the demo file — this reads as a vendor-side copy/paste error rather than genuine behaviour, since a function named \"History\" would be expected to do something with browser-style navigation history instead. Catalogued as a confirmed function name/signature only; treat the description as unreliable until confirmed directly against a newer beezwax.net doc or by testing in FileMaker."
+        }
+      }
+    },
+    "XPath and XML": {
+      "notes": "An initialize/evaluate/finalize lifecycle for querying XML via XPath. None have dedicated wiki pages, but all are confirmed via the bBox Plug-in Demo file's embedded reference text; the Errors table also groups them under a single \"bBox_XPath\" reference entry.",
+      "functions": {
+        "bBox_XPathInitializeFromText": {
+          "name": "bBox_XPathInitializeFromText",
+          "signature": "bBox_XPathInitializeFromText ( mode ; text {; options ; namespaceValues} )",
+          "description": "Sets up the XPath environment and compiles the given XML. Query the compiled XML using bBox_XPathEvaluate.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mode",
+              "description": "Line-ending/behaviour flags"
+            },
+            {
+              "name": "text",
+              "description": "XML text to compile"
+            },
+            {
+              "name": "options",
+              "description": "Optional XPath options"
+            },
+            {
+              "name": "namespaceValues",
+              "description": "Optional namespace bindings"
+            }
+          ],
+          "result": "none (sets up session state for bBox_XPathEvaluate)",
+          "error_reference": "bBox_LastError (\"xpath\") — session safe",
+          "notes": [
+            "compatibility confirmed via https://www.beezwax.net/bbox-xpathinitializefromtext (an older \"0.97+\"-era per-function vendor page, 16 demo examples)."
+          ]
+        },
+        "bBox_XPathEvaluate": {
+          "name": "bBox_XPathEvaluate",
+          "signature": "bBox_XPathEvaluate ( expression {; delimiter} )",
+          "description": "Using the previously compiled XML, evaluates the given expression and returns its result. It is not currently possible to specify the namespace to use for XPath expressions, which may be an issue for some XPath functions/expressions.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "compatibility": [
+            "WPE",
+            "WebDirect",
+            "Ubuntu",
+            "Server",
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "expression",
+              "description": "XPath expression to evaluate"
+            },
+            {
+              "name": "delimiter",
+              "description": "Optional delimiter for multi-value results"
+            }
+          ],
+          "result": "Evaluated result as text",
+          "error_reference": "bBox_LastError (\"xpath\")",
+          "notes": [
+            "compatibility and the namespace limitation confirmed via https://www.beezwax.net/bbox-xpathevaluate (an older \"0.97+\"-era per-function vendor page, 16 demo examples)."
+          ]
+        },
+        "bBox_XPathFinalize": {
+          "name": "bBox_XPathFinalize",
+          "signature": "bBox_XPathFinalize",
+          "description": "Releases all XPath data for the current context (created by bBox_XPathInitializeFromText).",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "result": "none",
+          "error_reference": "bBox_LastError (\"xpath\")",
+          "notes": [
+            "compatibility confirmed via https://www.beezwax.net/bbox-xpathfinalize (an older \"0.97+\"-era per-function vendor page, 16 demo examples)."
+          ]
+        }
+      }
+    },
+    "System and Environment": {
+      "notes": "OS-level environment and URL-scheme utilities. Only bBox_SetEnvironmentVariable has a dedicated wiki page; bBox_Sysctl and bBox_URLHandlerInfo are confirmed only via the demo file.",
+      "functions": {
+        "bBox_SetEnvironmentVariable": {
+          "name": "bBox_SetEnvironmentVariable",
+          "signature": "bBox_SetEnvironmentVariable ( name ; value )",
+          "description": "Sets an environment variable for the current process and any later child processes (shell/Python/Ruby calls, etc.) — e.g. PATH, used by Bash to locate commands. Pass an empty string as value to unset a variable.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_SetEnvironmentVariable.md",
+          "since": "0.99",
+          "compatibility": [
+            "Ubuntu",
+            "Server",
+            "macOS",
+            "Client"
+          ],
+          "parameters": [
+            {
+              "name": "name",
+              "description": "Shell variable name"
+            },
+            {
+              "name": "value",
+              "description": "Text to assign to the named variable; pass \"\" to unset it"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none",
+          "script_step_equivalent": "none",
+          "notes": [
+            "The empty-string-to-unset behaviour comes from the bBox Plug-in Demo file's embedded reference text, which is more detailed here than the wiki page."
+          ]
+        },
+        "bBox_Sysctl": {
+          "name": "bBox_Sysctl",
+          "signature": "bBox_Sysctl ( {mib} )",
+          "description": "Returns either all, or optionally just one, of the OS configuration values for the system executing the function. With no mib given, results are a return-delimited list of \"key: value\" lines; with a mib given, only that value is returned. See also bBox_SessionInfo for other process/OS-related values.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.99.11",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "mib",
+              "description": "Optional MIB (Management Information Base) key for a single value; omit to get all values"
+            }
+          ],
+          "result": "Return-delimited \"key: value\" list, or a single value if mib was given",
+          "error_reference": "none",
+          "notes": [
+            "Vendor's own exact casing is bBox_Sysctl (lowercase \"ctl\") — confirmed by two independent sources: the demo file's embedded reference text, and the dedicated vendor page at https://www.beezwax.net/bbox-sysctl (an older \"0.97+\"-era per-function page; only its own index-listing page had a stray \"SysCtl\" — the actual per-function page agrees with the demo file). This catalog's original build used bBox_SysCtl (capital C); FileMaker's calculation engine is case-insensitive for function names so this never affected correctness, but the entry key now matches the vendor's own spelling, confirmed twice over.",
+            "Example output: user.cs_path: /usr/bin:/bin:/usr/sbin:/sbin, user.bc_base_max: 99, etc."
+          ]
+        },
+        "bBox_URLHandlerInfo": {
+          "name": "bBox_URLHandlerInfo",
+          "signature": "bBox_URLHandlerInfo ( scheme )",
+          "description": "For the given scheme (e.g. \"http\"), returns information on the application that is the default handler.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.99.15",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server"
+          ],
+          "parameters": [
+            {
+              "name": "scheme",
+              "description": "URL scheme to look up, e.g. \"http\" or \"mailto\""
+            }
+          ],
+          "result": "Details on the scheme's handler in JSON format (e.g. CFBundleURLTypes, CFBundleURLSchemes, LSIsAppleDefaultForScheme keys)",
+          "error_reference": "none",
+          "notes": [
+            "since/compatibility/JSON-result-format confirmed via https://www.beezwax.net/bbox-urlhandlerinfo (an older \"0.97+\"-era per-function vendor page) — narrower platform support (Client, macOS, Server only, no Ubuntu/WebDirect/WPE) than most other functions in this catalog."
+          ]
+        }
+      }
+    },
+    "Diagnostics and Session Info": {
+      "notes": "Version checks, error retrieval, and diagnostic dumps. bBox_LastError is the single most important function in the plugin — see shared_reference.error_reference for the full per-function parameter table.",
+      "functions": {
+        "bBox_Version": {
+          "name": "bBox_Version",
+          "signature": "bBox_Version ( {versionFormat} )",
+          "description": "Returns the installed bBox plug-in version, or \"?\" if bBox is not installed/registered — useful as an install-check before triggering an install step.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_Version.md",
+          "parameters": [
+            {
+              "name": "versionFormat",
+              "description": "Optional: \"autoupdate\" (zero-padded, e.g. \"00050100\"); \"extended\" (build number + date, e.g. \"bBox 0.97.05 Nov 21 2020\", requires 0.97+); \"long\" (plug-in name + version, e.g. \"bBox 0.51\"); \"platform\" (\"Mac OS X\" or \"Linux\"); \"short\" (just the version, e.g. \"0.91\" — default)"
+            }
+          ],
+          "result": "Version string",
+          "notes": [
+            "The \"extended\" format matches what Get (InstalledFMPlugins) returns."
+          ]
+        },
+        "bBox_LastError": {
+          "name": "bBox_LastError",
+          "signature": "bBox_LastError ( reference )",
+          "description": "Returns the last error for a given function family/reference. If there is no error, returns \"0\". On error, many calls return a numeric code as the first value, followed by one or more lines of descriptive message or stack trace. Error codes are not cleared by this call, so it can be called multiple times.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_LastError.md",
+          "since": "0.50",
+          "compatibility": [
+            "Client",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "A session reference (numeric) or a fixed family name (e.g. \"posix\", \"curl\") — see shared_reference.error_reference for the full table"
+            }
+          ],
+          "result": "One or more return-delimited values",
+          "notes": [
+            "Session safe, so it reliably works across multiple simultaneous server-side PSoS/scheduled sessions. Not thread safe except for DuckDB references — recursion or concurrent calls within one session can retrieve the wrong result.",
+            "Numeric codes are often identical to the underlying binary's own exit/error code (e.g. bBox_Curl mirrors curl's own result when run in Terminal).",
+            "Add 32 to a function's mode value to combine stdout & stderr, surfacing stderr-only error detail (useful when debugging Python)."
+          ],
+          "doc_bug_note": "Errors-&-Troubleshooting.md's reference table has two typos in function names — \"bBob_Javascript\" and \"bBob_JavascriptNode\" should read \"bBox_JavaScript\" and \"bBox_JavaScriptNode\" — and one in the example text, \"bBbox_LastError\" for \"bBox_LastError\". Corrected in shared_reference.error_reference."
+        },
+        "bBox_ReferenceInfo": {
+          "name": "bBox_ReferenceInfo",
+          "signature": "bBox_ReferenceInfo ( reference )",
+          "description": "Returns the internal attributes of a given FileMaker variable or field reference (native type, size, allocation block, locale, text size in code points).",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_ReferenceInfo.md",
+          "since": "0.99",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "reference",
+              "description": "A variable or field reference"
+            }
+          ],
+          "result": "Return-delimited list of attributes",
+          "error_reference": "none",
+          "example_code": "Native Type: Text\nNative Size (bytes): 866\nSmallest Initial Allocation Block (bytes): 960\nLocale: UnicodeStandard\nText Size (code points): 433\n*sizes for raw text objects are inferred, and may not be exact"
+        },
+        "bBox_SessionInfo": {
+          "name": "bBox_SessionInfo",
+          "signature": "bBox_SessionInfo",
+          "description": "Returns FileMaker/OS/process-related values for the current environment and process, plus POSIX resource-usage and rlimit tables.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox_SessionInfo.md",
+          "since": "0.99",
+          "compatibility": [
+            "Client",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE",
+            "macOS"
+          ],
+          "result": "Various values as key/value pairs",
+          "error_reference": "bBox_LastError (\"util\")"
+        },
+        "bBox_ThreadInfo": {
+          "name": "bBox_ThreadInfo",
+          "signature": "bBox_ThreadInfo",
+          "description": "Returns CPU usage and settings for every thread in the process executing the function. For FileMaker Pro this is the application's own process; under PSoS or script schedules it's the FMS script engine. Ubuntu and macOS return different values.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.99",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "result": "Return-delimited rows: thread #, thread ID, CPU usage %, priority, flags, policy, run state, sleep time, system/user time, thread name",
+          "error_reference": "none",
+          "notes": [
+            "since/compatibility/output-format confirmed via https://www.beezwax.net/bbox-threadinfo (an older \"0.97+\"-era per-function vendor page)."
+          ]
+        },
+        "bBox_StackBacktrace": {
+          "name": "bBox_StackBacktrace",
+          "signature": "bBox_StackBacktrace",
+          "description": "For the context the function is executed in, lists every function call immediately preceding it, including the binary/library or framework name of each — the most-recently-called function is listed first. Primarily useful for debugging or tracing plug-in crashes or hangs.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.99.14",
+          "compatibility": [
+            "WPE",
+            "WebDirect",
+            "Ubuntu",
+            "Server",
+            "macOS",
+            "Client"
+          ],
+          "result": "A call stack listing, one frame per line, each naming its binary/library and function symbol",
+          "error_reference": "none",
+          "notes": [
+            "since/compatibility/output-format confirmed via https://www.beezwax.net/bbox-stackbacktrace (an older \"0.97+\"-era per-function vendor page), which includes a worked example showing raw FileMaker/Draco engine internals — not reproduced here since the exact addresses/symbols are build-specific noise rather than something to rely on."
+          ]
+        }
+      }
+    },
+    "Scripting Helpers": {
+      "notes": "Miscellaneous helpers with no dedicated wiki pages; confirmed via the bBox Plug-in Demo file's embedded reference text.",
+      "functions": {
+        "bBox_CurrentTime": {
+          "name": "bBox_CurrentTime",
+          "signature": "bBox_CurrentTime ( {format; useGMT} )",
+          "description": "Returns the current time as a string, with up to a millisecond of precision — higher precision than FileMaker's native Get(CurrentTime). The default format returns microseconds in a form FileMaker will accept as a Timestamp, e.g. GetAsTime (bBox_CurrentTime).",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "since": "0.3",
+          "compatibility": [
+            "Client",
+            "macOS",
+            "Server",
+            "Ubuntu",
+            "WebDirect",
+            "WPE"
+          ],
+          "parameters": [
+            {
+              "name": "format",
+              "description": "Optional printf-style time format string; default is \"%d:%02d:%02d.%06d\""
+            },
+            {
+              "name": "useGMT",
+              "description": "Optional flag confirmed via beezwax.net's own function signature, but not described anywhere on that page or the demo file — meaning not independently confirmed"
+            }
+          ],
+          "result": "Current time as text",
+          "error_reference": "none",
+          "notes": [
+            "since/compatibility/default-format detail confirmed via https://www.beezwax.net/bbox-currenttime (an older \"0.97+\"-era per-function vendor page). Its own header signature includes a useGMT second parameter this catalog didn't have before; kept here even though its purpose isn't documented anywhere available."
+          ]
+        },
+        "bBox_DoScript": {
+          "name": "bBox_DoScript",
+          "signature": "bBox_DoScript ( filename ; scriptname {; parameter ; control} )",
+          "description": "Runs the named FileMaker script at the next idle moment. Not server-side compatible. The script runs asynchronously from the calling script, so its result cannot be retrieved with Get(ScriptResult). If more than one script shares the given name, which one runs is undefined. Returns \"?\" if no matching script is found.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "filename",
+              "description": "FileMaker file containing the script — must already be open; typically Get(FileName)"
+            },
+            {
+              "name": "scriptname",
+              "description": "Name of the script to run"
+            },
+            {
+              "name": "parameter",
+              "description": "Optional text to pass to the script"
+            },
+            {
+              "name": "control",
+              "description": "Optional — meaning not described in any available source, including the older beezwax.net page below, which doesn't show this parameter at all"
+            }
+          ],
+          "result": "\"?\" if no script matching scriptname was found, otherwise none (result is not retrievable — see description)",
+          "error_reference": "none confirmed",
+          "notes": [
+            "The wiki's Function List page and the third-party draft both show only `( filename ; scriptname {; parameter} )` — the demo file's embedded reference text is the only source confirming a fourth `control` parameter. The behavioural detail (not PSoS-compatible, runs asynchronously, undefined resolution for duplicate script names, \"?\" on not-found) comes from https://www.beezwax.net/bbox-doscript, an older \"0.97+\"-era per-function vendor page whose own signature matches the wiki/draft's 3-parameter form, not the demo file's 4-parameter one — `control` may be a later addition this older page predates."
+          ]
+        }
+      }
+    },
+    "Logging and Schema Notifications": {
+      "notes": "OS syslog output and FileMaker schema-change event notifications. Mostly script steps; bBox_SchemaMessageHandler is a function-form alternative to the \"bBox Schema Notifications\" script step, confirmed via the demo file but not found on the wiki — the two may be the same underlying feature exposed two ways, or SchemaMessageHandler may be a newer replacement; this wasn't confirmed either way, so both are catalogued rather than assuming one supersedes the other.",
+      "functions": {
+        "bBox Syslog Open": {
+          "name": "bBox Syslog Open",
+          "signature": "bBox Syslog Open [ Facility ; Options ; Priority ]",
+          "description": "Optional call that creates a new syslog connection using the given facility name and options before logging with \"bBox Syslog\". The exact options differ between macOS and Linux.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "Facility",
+              "description": "Syslog facility name"
+            },
+            {
+              "name": "Options",
+              "description": "Numeric options — platform-specific meaning"
+            },
+            {
+              "name": "Priority",
+              "description": "One of: Emergency, Alert, Critical, Error, Warning, Notice, Info, Debug (default Debug)"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none confirmed",
+          "notes": [
+            "Confirmed via the demo file's embedded PluginStep parameter definition — not on the wiki. \"bBox_SyslogOpen: blank facility name given\" is a confirmed internal error message for a missing facility name."
+          ]
+        },
+        "bBox Syslog Close": {
+          "name": "bBox Syslog Close",
+          "signature": "bBox Syslog Close",
+          "description": "Closes a syslog connection previously opened with \"bBox Syslog Open\".",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "result": "none",
+          "error_reference": "none confirmed",
+          "notes": [
+            "Confirmed via the demo file (\"SyslogClose: no open connection to close\" is a confirmed internal error message) — not on the wiki."
+          ]
+        },
+        "bBox Syslog": {
+          "name": "bBox Syslog",
+          "signature": "bBox Syslog [ priority ; message {; options} ]",
+          "description": "Script step that logs a message using the OS's Syslog facility — macOS's unified log, or /var/log/syslog on Ubuntu.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox Syslog.md",
+          "since": "0.99.10",
+          "parameters": [
+            {
+              "name": "priority",
+              "description": "One of: Emergency, Alert, Critical, Error, Warning, Notice, Info, Debug"
+            },
+            {
+              "name": "message",
+              "description": "Text for the content portion of the logged message"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none",
+          "script_step_equivalent": "(this is itself a script step; no function form)",
+          "notes": [
+            "macOS: read with `log stream --predicate \"sender == 'bBox'\" --debug` or `log show --last 5m --predicate \"sender == 'bBox'\"`."
+          ]
+        },
+        "bBox Schema Notifications": {
+          "name": "bBox Schema Notifications",
+          "signature": "bBox Schema Notifications [ type ; pathOrURL ; scriptName ; credentials ]",
+          "description": "Script step that enables or disables schema-change notifications on FileMaker Server. Events carry a JSON payload describing what changed; a single developer change can trigger multiple events. No equivalent function exists.",
+          "doc_status": "full",
+          "url": "https://raw.githubusercontent.com/wiki/beezwax/bbox-documentation/bBox Schema Notifications.md",
+          "since": "1.05",
+          "compatibility": [
+            "WPE",
+            "WebDirect",
+            "Ubuntu",
+            "Server",
+            "macOS"
+          ],
+          "parameters": [
+            {
+              "name": "type",
+              "description": "\"DuckDB\", \"OData\", or \"Syslog\""
+            },
+            {
+              "name": "pathOrURL",
+              "description": "DuckDB: POSIX path for the database file (\"\" = in-memory); OData: URL for the FileMaker Server; Syslog: not used"
+            },
+            {
+              "name": "scriptName",
+              "description": "OData only: name of the script that handles the payload"
+            },
+            {
+              "name": "credentials",
+              "description": "OData only: account name & password"
+            }
+          ],
+          "result": "Text result of the underlying SQL expression, or \"?\" on error",
+          "error_reference": "bBox_LastError (\"utility\")",
+          "notes": [
+            "Syslog is the default/simplest method (last three parameters ignored); query with `log stream --predicate \"sender == 'bBox'\"` (macOS) or `journalctl -f -t bBox` (Ubuntu).",
+            "DuckDB mode auto-creates: CREATE TABLE IF NOT EXISTS fm_schema_message (timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, message TEXT); — pre-initialize the file/table yourself first if you want CSV-formatted storage instead of native DuckDB.",
+            "OData mode is the most complex to set up — use bBox_FM_API_URL(\"ODATA\"; host; database) to build the target URL, and provide a FileMaker script to handle each payload (keep it fast; several requests can arrive in quick succession)."
+          ],
+          "example_code": "Set Variable [ $baseURL ; Value: bBox_FM_API_URL(\"ODATA\"; \"localhost\"; \"bBox Plug-In Demo\" ) ]\nbBox Schema Notifications [ Type: OData ; PathOrURL: $baseURL ; Script Name: \"store_schema_change\" ; Credentials: \"simon:mypasswordhere\" ]"
+        },
+        "bBox_SchemaMessageHandler": {
+          "name": "bBox_SchemaMessageHandler",
+          "signature": "bBox_SchemaMessageHandler ( protocolOrURL {; scriptname ; credentials} )",
+          "description": "Sets the FileMaker script to be called when a schema-change notification is received by the plug-in. Calls are delivered via the server's OData API, Data API, DuckDB, or syslog. Set protocolOrURL to \"\" to disable handling of these notifications. Settings are global to all files on the server.",
+          "doc_status": "full_demo_confirmed",
+          "url": "https://github.com/beezwax/bbox-documentation/wiki/Functions-&-Script-Steps",
+          "parameters": [
+            {
+              "name": "protocolOrURL",
+              "description": "For OData/DAPI: the base URL (bBox_FM_API_URL can produce this); for DuckDB: a file: scheme path; for syslog: just the literal \"syslog\"; \"\" disables handling"
+            },
+            {
+              "name": "scriptname",
+              "description": "Optional script to call when a notification is received"
+            },
+            {
+              "name": "credentials",
+              "description": "Optional credentials for the OData/DAPI case"
+            }
+          ],
+          "result": "none",
+          "error_reference": "none confirmed",
+          "notes": [
+            "A function-form entry point for schema-change handling, found only via the demo file's embedded reference text — not on the wiki, which documents only the script-step form (\"bBox Schema Notifications\", above). See this category's top-level note on the relationship between the two."
+          ]
+        }
+      }
+    }
+  },
+  "shared_reference": {
+    "mode_flags": {
+      "description": "Bit flags shared across many bBox functions/script steps to adjust behaviour. Flags are combinable by addition (e.g. 1+4 = 5). Support varies per function — check the specific function's own mode description before assuming a flag applies; invalid flags are typically ignored rather than erroring. Some function pages describe pre-combined values (0, 1, 2, 3...) as a convenience enum rather than spelling out each bit — e.g. bBox_Shell's \"3\" is just +1 and +2 combined.",
+      "flags": {
+        "1": "Skip conversion of carriage returns to line feeds on input",
+        "2": "Skip conversion of line feeds to carriage returns on output",
+        "4": "Run asynchronously (don't wait for output)",
+        "8": "Skip finalization (keep context)",
+        "16": "Use alternate path for command",
+        "32": "Combine stdout & stderr (often needed to see error output that doesn't go to stdout)",
+        "64": "Unzip container references (available since version 0.99.7)"
+      },
+      "example": "bBox_Zsh (1+4; \"/usr/local/mylongrunningscript.sh\")  // skip CR-to-LF on input, run asynchronously"
+    },
+    "error_reference": {
+      "description": "The bBox_LastError(reference) parameter to use per function, from Errors-&-Troubleshooting.md. Two function names in the live wiki table are typoed (\"bBob_Javascript\", \"bBob_JavascriptNode\") — corrected below to bBox_JavaScript / bBox_JavaScriptNode.",
+      "table": {
+        "bBox_Applescript": "-2 / \"applescript\"",
+        "bBox_Bash": "-1 / \"posix\"",
+        "bBox_Curl": "-7 / \"curl\"",
+        "bBox_DuckDB*": "use the reference number returned by bBox_DuckDBOpen (positive number)",
+        "bBox_ExecuteSQL": "-2 / \"SQL\"",
+        "bBox_JavaScript": "-5 / \"js\"",
+        "bBox_JavaScriptNode": "-5 / \"js\"",
+        "bBox_EvaluateList": "N/A — returns \"?\" as its result on error",
+        "bBox_File*": "-1 / \"posix\"",
+        "bBox_GetCharacterStyle": "-8 / \"util\"",
+        "bBox_GraphicsMagick": "-1 / \"posix\"",
+        "bBox_Grep": "-1 / \"posix\"",
+        "bBox_JQ": "-1 / \"posix\"",
+        "bBox_MacCalendar": "-9 / \"maccal\"",
+        "bBox_MacNotificationsGetSettings": "N/A — returns \"?\" as its result on error",
+        "bBox_Pasteboard*": "-8 / \"util\"",
+        "bBox_PerformKeystrokes": "N/A",
+        "bBox_PythonCompile": "-3 / N/A — use the reference number from bBox_PythonCompile",
+        "bBox_PythonExecute": "(future versions will use a reference value > 0)",
+        "bBox_PythonEval": "-3",
+        "bBox_Python3Run": "-3 / N/A",
+        "bBox_Ruby": "-5 / \"posix\"",
+        "bBox_ReferenceInfo": "N/A",
+        "bBox_SessionInfo": "-8 / \"util\"",
+        "bBox Schema Notifications": "-8 / \"util\"",
+        "bBox_Shell": "-1 / \"posix\"",
+        "bBox_Sysctl": "-1 / \"posix\"",
+        "bBox_ThreadInfo": "N/A",
+        "bBox_URLHandlerInfo": "N/A — \"?\" on error",
+        "bBox_WebView*": "N/A — \"?\" on error",
+        "bBox_XPath*": "-4 / \"xpath\""
+      }
+    },
+    "container_field_references": {
+      "description": "Since 0.97, these functions/script steps accept a container field reference directly as a parameter in place of a file path: bBox_Bash (function & script step), bBox_Curl, bBox_GraphicsMagick, bBox_Grep (function & script step), bBox_JavaScriptNode, bBox_JQ, bBox Python3 Run (script step), bBox_Ruby, bBox_Sips, bBox_Zsh (function & script step). The container's file is written to a temp path in the form bBox_file_XXXXXXXXX.bin (always .bin regardless of original type/name; a directory if it's a zip with the unzip mode flag set) and that path is substituted in as the parameter. These temp files are purged by the OS after 3 days or the next reboot — clean up sooner if working with large files, e.g. `find /tmp -type f -mmin +180 -name 'bBox_file_*' -delete` (Ubuntu) or the /private/tmp equivalent on macOS. Older bBox versions used a `bBox_posix_` prefix instead."
+    },
+    "file_paths": {
+      "description": "Functions/script steps expecting a path always use POSIX format. Convert a FileMaker path (e.g. from Get(DocumentsFolder)) with FileMaker's native ConvertFromFileMakerPath function before passing it to a bBox function."
+    },
+    "type_conversion": {
+      "description": "FileMaker passes bBox data as one of: Binary, Boolean, Date, Invalid, Number, Text, Time, TimeStamp. Non-Text values are frequently converted to their text equivalent before use (e.g. a Numeric 1234 becomes the string \"1234\" for a shell call). Use bBox_ReferenceInfo to inspect a parameter's native type."
+    },
+    "line_endings_and_encoding": {
+      "description": "FileMaker strips literal line breaks from string literals in calculations — always store multi-line scripts in a text field, container field, or insert them via the Insert Text script step. FileMaker itself defaults to Carriage Return line endings; bBox typically auto-translates to/from POSIX newlines unless overridden via the mode flags (+1/+2). POSIX commands generally expect UTF-8 — 16/32-bit Unicode characters that don't map to a UTF-8 equivalent are stripped during conversion."
+    },
+    "native_fm_bridge": {
+      "description": "bBox_JavaScript, bBox_JavaScriptNode, bBox_PythonExecute, and bBox_PythonEval can expose an `fm` class/object in the script environment for calling back into FileMaker. Python requires `import fm` first. Parameters are identical across the two languages except fm.executesql (JavaScript takes only the SQL expression; Python also accepts an optional list of bind values) — a future bBox version is expected to align them. DuckDB has an analogous `fmevaluate` SQL function for the same purpose.",
+      "methods": {
+        "fm.evaluate(expression)": "Evaluates a FileMaker calculation expression, returning the result as a native value in the host language. Can also be used to set FileMaker globals (e.g. Python: fm.evaluate('$$myGlobalName = \"text\"')) — though this specific form does not work correctly in bBox 1.06.",
+        "fm.executesql(expression) [JavaScript]": "Runs a FileMaker SQL expression, returning a newline/tab-delimited string of results.",
+        "fm.executesql(expression, values=None) [Python]": "Runs a FileMaker SQL expression, optionally with bind values, returning a Python list (tuple) of rows — no delimiter characters needed, unlike FileMaker's native ExecuteSQL.",
+        "fm.run(filename, scriptname, {parameter})": "Runs a FileMaker script in the given file, optionally passing a parameter. Retrieve the script's result afterward with fm.evaluate(\"Get (ScriptResult)\")."
+      }
+    },
+    "thread_and_session_safety": {
+      "description": "\"Thread safe\": multiple PSoS/schedule sessions can call the function AND multiple unrelated calls can run concurrently within one session (each call is atomic with no shared side effects). \"Session safe\": each PSoS/schedule session must keep its own context, so concurrent calls are safe across different sessions but NOT safe more than one at a time within a session.",
+      "by_function": {
+        "bBox_LastError": "Session safe for most cases; also thread safe for DuckDB references",
+        "bBox_JavaScript": "Session and thread safe, but bBox_LastError(\"JS\") is only session safe",
+        "bBox_JavaScriptNode": "Session and thread safe",
+        "bBox_PythonExecute / bBox_PythonEval": "NOT thread or session safe — only one process-wide Python VM exists (Python's GIL); use a mutex/blocking mechanism if calls could overlap",
+        "bBox_Python3Run": "Thread safe (spawns a separate interpreter per call); does not support the fm bridge class",
+        "bBox_DuckDB*": "Session and thread safe",
+        "bBox_XPath*": "Session safe"
+      }
+    },
+    "psos_and_calculation_field_limits": {
+      "description": "Functions interacting with windows/applications (much of bBox_Applescript) don't work under PSoS/schedules — there's no accessible logged-in GUI session even if a user is nominally logged in. FMS's script engine is also more resource-constrained: heavy native code (e.g. a large Python loop pushing data onto the stack) can exceed stack limits and crash the script engine — the demo file's prime-number generator crashes above ~55,000 in its range. PSoS results are also capped at 1,000,000 characters (FileMaker 14 limit) — exceeding this can hang the client. Shell/Bash/Python/Ruby-family functions do not behave reliably in a STORED calculation field — use unstored calculations instead."
+    }
+  }
+}

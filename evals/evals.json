@@ -1,0 +1,35 @@
+{
+  "skill": "beezwax-bbox-plugin",
+  "cases": [
+    {
+      "id": "function-lookup-error-pattern",
+      "prompt": "I'm using bBox_Python3Run in a FileMaker script to run a Python script, but when it fails I only get a '?' back with no useful detail. How do I get the actual error message?",
+      "expected": [
+        "Identifies bBox_LastError(-3) as the correct reference parameter for bBox_Python3Run (from shared_reference.error_reference / the function's own error_reference field)",
+        "Recommends adding mode +32 to combine stdout & stderr, since Python's traceback goes to stderr and is otherwise discarded",
+        "Optionally references the worked example in the catalog: bBox_Python3Run(32; \"y=5/0\") & ¶ & bBox_LastError(-1) & ¶ & bBox_LastError(-3)"
+      ],
+      "input_files": []
+    },
+    {
+      "id": "stub-vs-full-hedging",
+      "prompt": "What parameters does bBox_XPathInitializeFromText take, and can I trust that signature completely?",
+      "expected": [
+        "Gives the reconstructed signature: bBox_XPathInitializeFromText ( mode ; text {; options ; namespaceValues} )",
+        "Explicitly flags doc_status as stub_no_wiki_page — no dedicated wiki page exists, the signature was reconstructed from cross-references, and exact parameter order should be verified against beezwax.net or the demo file before relying on it precisely",
+        "Does not present the stub signature with the same confidence as a full catalog entry"
+      ],
+      "input_files": []
+    },
+    {
+      "id": "container-field-and-thread-safety",
+      "prompt": "I want to run a Bash script server-side (PSoS) that processes a file from a container field, and I also want to run a Python session (bBox_PythonCompile/Execute) at the same time in a different scheduled script. Any gotchas?",
+      "expected": [
+        "Explains the container-field-reference mechanism for bBox_Bash: file is written to a temp bBox_file_XXXXXXXXX.bin path and substituted in as the parameter, purged after 3 days/reboot",
+        "Flags that bBox_PythonCompile/Execute/Eval are NOT thread or session safe — only one process-wide Python VM exists, so overlapping PSoS/schedule sessions using Python need a mutex/blocking mechanism, or should use bBox_Python3Run instead (thread safe, but no fm bridge)",
+        "Mentions the general PSoS caveat that GUI-dependent functions won't work server-side, and that stored calculation fields aren't reliable for Bash/Python-family functions"
+      ],
+      "input_files": []
+    }
+  ]
+}
