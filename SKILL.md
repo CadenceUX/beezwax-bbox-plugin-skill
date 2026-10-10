@@ -1,22 +1,23 @@
 ---
-compatibility: Claude.ai, Claude Chat, Claude Code
-metadata:
-  "Built and maintained": "Darrin Southern from CadenceUX"
-  version: "1.0"
 name: beezwax-bbox-plugin
-description: |
-  Reference skill for the bBox FileMaker Plug-in by Beezwax Datatools, Inc. — a free,
-  closed-source plug-in with 87 cataloged functions/script steps covering shell/Bash/Zsh,
-  AppleScript, cURL and HTTP verbs, FileMaker Server API login, DuckDB/SQLite, JavaScript
-  (JavaScriptCore and Node), Python, Ruby, jq, GraphicsMagick/sips images, clipboard,
-  WebViewer control, XPath, macOS text windows, and macOS/Ubuntu system utilities. Use
-  whenever any bBox_ function or "bBox ..." script step appears in a calculation or script,
-  or when asked about shelling out, running AppleScript/Python/Ruby/Node/JavaScript, cURL/
-  HTTP/SOAP/REST calls, DuckDB/SQLite queries, image conversion, or pasteboard/WebViewer/
-  filesystem access from FileMaker. Covers shared mode-flag bit values, the bBox_LastError
-  reference parameter per function, container-field-reference shortcuts, PSoS/server-side
-  limitations, and thread/session-safety rules. Do not use for other FileMaker plugins — see
-  goya-be-plugin or monkeybread-mbs-plugin.
+description: >-
+  Reference for the bBox FileMaker plug-in by Beezwax Datatools, a free plug-in for macOS and
+  Ubuntu: every bBox_ function and bBox script step with its signature, mode flags, the
+  bBox_LastError reference parameter, container shortcuts and server-side (PSoS) limits.
+  Covers shell, Bash and Zsh, AppleScript, cURL and HTTP verbs, FileMaker Server API login,
+  DuckDB and SQLite, JavaScript (JavaScriptCore and Node), Python, Ruby, jq, GraphicsMagick
+  and sips images, the pasteboard, web viewer control, XPath and system utilities. Use
+  whenever a bBox_ function or bBox script step appears in a FileMaker calculation or script,
+  or when asked how to run shell commands, other languages, HTTP calls, SQLite or DuckDB
+  queries or image conversion from FileMaker with bBox. Not for the BaseElements (goya-be-
+  plugin) or MBS (monkeybread-mbs-plugin) plug-ins.
+license: CC-BY-4.0
+compatibility: >-
+  Claude.ai, Claude Desktop, Cowork and Claude Code. The bBox plug-in itself runs on macOS and
+  Ubuntu, not Windows.
+metadata:
+  author: Darrin Southern, CadenceUX
+  version: "1.1.0"
 ---
 
 # bBox FileMaker Plug-in — Reference Skill
@@ -131,7 +132,7 @@ At the start of each session, on the first bBox question, run once:
 
 1. Fetch `https://github.com/CadenceUX/beezwax-bbox-plugin-skill/raw/main/VERSION`
 2. Parse the returned string as the latest available version
-3. Compare with this skill's installed version (currently `"1.0"`)
+3. Compare with this skill's installed version (currently `"1.1.0"`)
 4. If latest > installed, prepend this notice to your first response:
 
    > ⚠️ **Skill update available**

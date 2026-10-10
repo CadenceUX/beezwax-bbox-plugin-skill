@@ -1,5 +1,19 @@
 # CHANGELOG — beezwax-bbox-plugin
 
+## [1.1.0] — 2026-10-11
+
+Data check and update to Anthropic's skill authoring best practices, using `cadenceux-skill-creator` 2.0.0.
+
+### Verified current (2026-10-11)
+
+- bBox wiki Home still lists **1.06** as the current version for macOS and Ubuntu; no newer release on the Beezwax blog or product page.
+- All 50 wiki pages (cloned via `git ls-tree`) match catalog entries, including `bBox_Grep` (page created 2026-07-06). No enumeration drift.
+
+### Changed
+
+- Frontmatter to the CadenceUX standard: third-person description with "Use when" and "Not for", no function count (counts go stale), `license: CC-BY-4.0`, `metadata.author`, three-part version.
+- `.claude-plugin/plugin.json` added for the `cadenceux` marketplace.
+
 ## v1.0 — 2026-07-07 (updated 2026-07-07, pre-release)
 
 Initial release. **Not yet shipped anywhere** (no GitHub repo exists for this skill — confirmed

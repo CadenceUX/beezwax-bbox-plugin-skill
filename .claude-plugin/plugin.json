@@ -1,0 +1,23 @@
+{
+  "name": "beezwax-bbox-plugin",
+  "displayName": "bBox Plugin Reference",
+  "version": "1.1.0",
+  "description": "Reference for the free bBox FileMaker plug-in by Beezwax Datatools: shell, AppleScript, Python, Node, cURL, DuckDB/SQLite, jq, images, pasteboard and web viewer functions, with mode flags and error handling.",
+  "author": {
+    "name": "Darrin Southern",
+    "url": "https://cadenceux.com.au"
+  },
+  "homepage": "https://github.com/CadenceUX/beezwax-bbox-plugin-skill",
+  "repository": "https://github.com/CadenceUX/beezwax-bbox-plugin-skill",
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "filemaker",
+    "claris",
+    "bbox",
+    "beezwax",
+    "plugin"
+  ],
+  "skills": [
+    "./"
+  ]
+}

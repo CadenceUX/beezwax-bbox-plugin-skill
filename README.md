@@ -29,19 +29,22 @@ When this skill is active, Claude will:
 
 ---
 
-## Installation
+## Install
 
-**macOS (Claude desktop app):** double-click the `beezwax-bbox-plugin-v1.0.skill` file — it opens
-Claude's skill-install flow directly. (The `.skill` file is just the release zip renamed.)
+**Claude Code** (from the `cadenceux` plugin marketplace):
 
-**Claude.ai in a browser (or if double-click doesn't work):** upload the release zip via
-Settings → Customize → Skills.
+```bash
+claude plugin marketplace add https://github.com/CadenceUX/cadenceux-skills.git
+claude plugin install beezwax-bbox-plugin@cadenceux
+```
 
-The skill is then active for any conversation referencing a `bBox_` function, a `bBox ...` script
-step, or a task bBox is built for (shelling out, AppleScript, cURL, DuckDB/SQLite, embedded
-Python/Ruby/JavaScript, image conversion, pasteboard/WebViewer access).
+**claude.ai and Cowork:** Customize → Plugins → Add marketplace from GitHub →
+`CadenceUX/cadenceux-skills`, then install **beezwax-bbox-plugin**.
 
----
+**Claude desktop app (macOS):** download `beezwax-bbox-plugin-v1.1.0.skill` from the
+[latest release](https://github.com/CadenceUX/beezwax-bbox-plugin-skill/releases) and double-click it.
+
+**Claude.ai in a browser, as a single skill:** Customize → Skills → upload the release `.zip`.
 
 ## How it works
 
