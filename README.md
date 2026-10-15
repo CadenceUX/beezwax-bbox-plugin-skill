@@ -31,6 +31,17 @@ When this skill is active, Claude will:
 
 ## Install
 
+**Claude desktop app (macOS):** download [`beezwax-bbox-plugin.skill`](https://github.com/CadenceUX/beezwax-bbox-plugin-skill/releases/latest/download/beezwax-bbox-plugin.skill) and
+double-click it.
+
+**Claude.ai in a browser, or Claude Desktop → Customize → Skills → upload:** download
+[`beezwax-bbox-plugin.zip`](https://github.com/CadenceUX/beezwax-bbox-plugin-skill/releases/latest/download/beezwax-bbox-plugin.zip) and upload it.
+
+> Use the files above, which are attached to the latest
+> [release](https://github.com/CadenceUX/beezwax-bbox-plugin-skill/releases). Don't use GitHub's green
+> **Code → Download ZIP** button or a release's **Source code (zip)**: those are snapshots of
+> the repository, not a packaged skill, and Claude won't install them as one.
+
 **Claude Code** (from the `cadenceux` plugin marketplace):
 
 ```bash
@@ -38,13 +49,8 @@ claude plugin marketplace add https://github.com/CadenceUX/cadenceux-skills.git
 claude plugin install beezwax-bbox-plugin@cadenceux
 ```
 
-**claude.ai and Cowork:** Customize → Plugins → Add marketplace from GitHub →
+**Cowork, or claude.ai as a plugin:** Customize → Plugins → Add marketplace from GitHub →
 `CadenceUX/cadenceux-skills`, then install **beezwax-bbox-plugin**.
-
-**Claude desktop app (macOS):** download `beezwax-bbox-plugin-v1.1.0.skill` from the
-[latest release](https://github.com/CadenceUX/beezwax-bbox-plugin-skill/releases) and double-click it.
-
-**Claude.ai in a browser, as a single skill:** Customize → Skills → upload the release `.zip`.
 
 ## How it works
 
