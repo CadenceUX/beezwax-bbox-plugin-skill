@@ -17,7 +17,7 @@ compatibility: >-
   Ubuntu, not Windows.
 metadata:
   author: Darrin Southern, CadenceUX
-  version: "1.1.0"
+  version: "1.1.1"
 ---
 
 # bBox FileMaker Plug-in — Reference Skill
@@ -132,7 +132,7 @@ At the start of each session, on the first bBox question, run once:
 
 1. Fetch `https://github.com/CadenceUX/beezwax-bbox-plugin-skill/raw/main/VERSION`
 2. Parse the returned string as the latest available version
-3. Compare with this skill's installed version (currently `"1.1.0"`)
+3. Compare with this skill's installed version (currently `"1.1.1"`)
 4. If latest > installed, prepend this notice to your first response:
 
    > ⚠️ **Skill update available**
