@@ -17,7 +17,7 @@ compatibility: >-
   Ubuntu, not Windows.
 metadata:
   author: Darrin Southern, CadenceUX
-  version: "1.1.1"
+  version: "1.2.0"
 ---
 
 # bBox FileMaker Plug-in — Reference Skill
@@ -87,6 +87,21 @@ demo-file signature (`reference; expression`, session-based) disagrees with this
 (`expression` only, session-less, described as a one-shot alternative to the Compile/Execute/
 Finalize family) — see that entry's `doc_bug_note` before trusting either without testing.
 
+**Deprecated functions** carry `"deprecated": true` and a `replaced_by` pointer. Today that's
+the SQLite family (`bBox_SQLiteOpen`/`Exec`/`Options`/`Close`), which Beezwax removed from
+the wiki's function index as deprecated in October 2026. They still run in 1.06; say so, but
+steer new work to the `bBox_DuckDB*` functions.
+
+
+## Requirements
+
+| Kind | Name | Used for | Surfaces |
+|---|---|---|---|
+| API | `raw.githubusercontent.com` (public, no key) | Live wiki pages, and this skill's own version check | Any surface that can fetch |
+| CLI | `git` | Cloning the bBox wiki for the enumeration-drift check, on request | Claude Code |
+
+Routine lookups need neither: they read `references/function-catalog.json`.
+
 ---
 
 ## Plugin version & staleness check
@@ -132,7 +147,7 @@ At the start of each session, on the first bBox question, run once:
 
 1. Fetch `https://github.com/CadenceUX/beezwax-bbox-plugin-skill/raw/main/VERSION`
 2. Parse the returned string as the latest available version
-3. Compare with this skill's installed version (currently `"1.1.1"`)
+3. Compare with this skill's installed version (currently `"1.2.0"`)
 4. If latest > installed, prepend this notice to your first response:
 
    > ⚠️ **Skill update available**
@@ -235,7 +250,7 @@ a **stored** calculation field — use unstored calculations instead. See
 | Shell, Bash, and Zsh | bBox_Shell, bBox_Bash, bBox_Zsh, bBox_ShellExitStatus |
 | AppleScript and macOS Automation | bBox_Applescript, bBox_ApplescriptLastError, bBox_PerformKeystrokes, bBox_MacCalendar, bBox_MacNotificationsGetSettings, bBox_MacNotification, bBox_SelectMenuItem, bBox Text Window Open/Action |
 | Networking | bBox_Curl, bBox_Scp, bBox_FM_API_URL, bBox_FM_API_Login, bBox_FM_Admin_Login, bBox_HTTP_GET/DELETE/PATCH/POST/Option |
-| Databases (DuckDB and SQLite) | bBox_DuckDB* (Open/Exec/Close), bBox_SQLite* (legacy), bBox_ExecuteSQL, bBox_SQLiteImport and bBox_DuckDBRun (both "Not Implemented") |
+| Databases (DuckDB and SQLite) | bBox_DuckDB* (Open/Exec/Close), bBox_SQLite* (deprecated: use DuckDB), bBox_ExecuteSQL, bBox_SQLiteImport and bBox_DuckDBRun (both "Not Implemented") |
 | Text and Parsing | bBox_Grep, bBox_EvaluateList, bBox_SplitText, bBox_ParsePositionList, bBox_GetCharacterStyle, bBox_Sort |
 | Files and Filesystem | bBox_FileRead, bBox_FileWrite, bBox_FileStatus, bBox_FileSymLink, bBox_MimeTypeForPath |
 | Scripting Languages | bBox_JavaScript, bBox_JavaScriptNode, bBox_JQ, bBox_Ruby, bBox_Python3Run, bBox_Python(Compile/Execute/Eval/GetVar/SetVar/Finalize) |

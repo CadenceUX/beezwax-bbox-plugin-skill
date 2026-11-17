@@ -1,5 +1,37 @@
 # CHANGELOG — beezwax-bbox-plugin
 
+## [1.2.0] — 2026-11-18
+
+Data check against the live wiki, using `cadenceux-skill-creator` 2.4.0. Plug-in still 1.06.
+
+### Changed
+
+- **SQLite functions marked deprecated.** Beezwax removed `bBox_SQLiteOpen`, `bBox_SQLiteExec`,
+  `bBox_SQLiteOptions` and `bBox_SQLiteClose` from the wiki's function index as deprecated on
+  2026-10-29. Each entry now carries `"deprecated": true`, a `replaced_by` pointer to its
+  `bBox_DuckDB*` equivalent and a dated note; the category notes, `meta.deprecated_meaning`
+  and SKILL.md say how to answer about them (still runs in 1.06, use DuckDB for new work).
+- `bBox_ParsePositionList` notes that the wiki index shows `( reference )` while its own page
+  and the demo file give `( text )`; the catalog follows the page.
+- New `## Requirements` section (the public wiki source and `git` for the drift check).
+- `sensitive-allow.txt` lists the two placeholder emails in Beezwax's own `bBox_Curl` example, so
+  the validator's personal-data scan passes.
+- `meta.version`, `meta.last_updated` and a new `meta.last_verified_against_live` brought up
+  to date.
+- Evals: new `deprecated-sqlite` case. `stub-vs-full-hedging` now expects
+  `full_demo_confirmed` for `bBox_XPathInitializeFromText`, matching the catalog since 1.0
+  (the case text still named the retired stub tier).
+
+### Verified current (2026-11-18)
+
+- Wiki Home still lists **1.06**; no newer release post.
+- The wiki's 50 pages are unchanged since the 2026-10-11 check. The 2026-10-29/30 index edits
+  added `bBox_HTTP_POST`, `bBox_MacNotification`, `bBox_MacNotificationsGetSettings` and
+  `bBox_ParsePositionList` to the index; all four were already catalogued with matching
+  signatures. The `bBox_SplitText` page edit fixed a description typo only.
+- Evals on Haiku: 4/4 (`evals/results-2026-11-18.md`). The new case also ran against the
+  released 1.1.1, which steered to DuckDB but didn't report the vendor's deprecation.
+
 ## [1.1.1] — 2026-10-16
 
 Packaging fix for GitHub installs, using `cadenceux-skill-creator` 2.1.2. No change to the

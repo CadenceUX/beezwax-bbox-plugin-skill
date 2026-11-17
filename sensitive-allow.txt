@@ -1,0 +1,4 @@
+# Reviewed values the validator may skip. Both appear verbatim in the bBox_Curl example
+# on Beezwax's public wiki (domain.com placeholders), not real accounts.
+brown@domain.com
+simon@domain.com

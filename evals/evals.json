@@ -16,8 +16,8 @@
       "prompt": "What parameters does bBox_XPathInitializeFromText take, and can I trust that signature completely?",
       "expected": [
         "Gives the reconstructed signature: bBox_XPathInitializeFromText ( mode ; text {; options ; namespaceValues} )",
-        "Explicitly flags doc_status as stub_no_wiki_page — no dedicated wiki page exists, the signature was reconstructed from cross-references, and exact parameter order should be verified against beezwax.net or the demo file before relying on it precisely",
-        "Does not present the stub signature with the same confidence as a full catalog entry"
+        "Explicitly flags doc_status as full_demo_confirmed — no dedicated wiki page exists, the signature comes from the vendor's demo file and plugin binary rather than a wiki page, and there are no worked examples or version history",
+        "Does not present the signature with the same confidence as a doc_status full entry"
       ],
       "input_files": []
     },
@@ -30,7 +30,17 @@
         "Mentions the general PSoS caveat that GUI-dependent functions won't work server-side, and that stored calculation fields aren't reliable for Bash/Python-family functions"
       ],
       "input_files": []
+    },
+    {
+      "id": "deprecated-sqlite",
+      "prompt": "I've got an old FileMaker script using bBox_SQLiteOpen and bBox_SQLiteExec. Should I keep using them for a new feature?",
+      "expected": [
+        "Reports that the SQLite functions are deprecated (deprecated: true in the catalog; Beezwax removed them from the wiki function index as deprecated)",
+        "Says they still run in bBox 1.06, so existing scripts aren't broken",
+        "Steers new work to bBox_DuckDBOpen / bBox_DuckDBExec / bBox_DuckDBClose using the replaced_by pointers"
+      ],
+      "input_files": []
     }
   ],
-  "version": "1.1.0"
+  "version": "1.2.0"
 }
